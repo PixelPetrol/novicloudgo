@@ -1,0 +1,160 @@
+<style>
+:root { color-scheme: light dark;
+  --granat:#101a2a; --niebieski:#138dd1; --pomarancz:#f08c00;
+  --tlo:#f2f6fa; --karta:#ffffff; --tekst:#1b2733; --tekst2:#55697a;
+  --linia:rgba(16,26,42,.13); --szyna:#dce7f1; }
+@media (prefers-color-scheme: dark) { :root {
+  --tlo:#0d151d; --karta:#15222e; --tekst:#e9f0f6; --tekst2:#9cb0c2;
+  --niebieski:#54b3e9; --pomarancz:#f9a63c;
+  --linia:rgba(255,255,255,.15); --szyna:#1e3040; } }
+:root[data-theme="dark"] {
+  --tlo:#0d151d; --karta:#15222e; --tekst:#e9f0f6; --tekst2:#9cb0c2;
+  --niebieski:#54b3e9; --pomarancz:#f9a63c;
+  --linia:rgba(255,255,255,.15); --szyna:#1e3040; }
+:root[data-theme="light"] {
+  --tlo:#f2f6fa; --karta:#ffffff; --tekst:#1b2733; --tekst2:#55697a;
+  --niebieski:#138dd1; --pomarancz:#f08c00;
+  --linia:rgba(16,26,42,.13); --szyna:#dce7f1; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--tlo); color:var(--tekst);
+  font:16px/1.62 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; }
+.etykieta { font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--tekst2); }
+a { color:var(--niebieski); }
+a:focus-visible, summary:focus-visible { outline:2px solid var(--pomarancz);
+  outline-offset:3px; border-radius:4px; }
+
+/* Masthead: płaski granat + monogram produktu, bez gradientu i bez wielkiego hero */
+.masthead { background:var(--granat); color:#fff; padding:26px 22px; }
+.masthead .in { max-width:1120px; margin:0 auto; display:flex; align-items:center;
+  gap:16px; flex-wrap:wrap; }
+.mono { width:46px; height:33px; color:var(--niebieski); flex:none; }
+.masthead h1 { margin:0; font-size:clamp(19px,2.6vw,25px); font-weight:650;
+  letter-spacing:-.015em; text-wrap:balance; }
+.masthead .wersja { margin-left:auto; font:600 12px/1 ui-monospace,Menlo,monospace;
+  letter-spacing:.08em; padding:6px 11px; border:1px solid rgba(255,255,255,.28);
+  border-radius:6px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+.uklad { max-width:1120px; margin:0 auto; padding:28px 22px 72px;
+  display:grid; grid-template-columns:1fr; gap:34px; }
+@media (min-width:1000px) { .uklad { grid-template-columns:216px 1fr; gap:44px; } }
+
+/* Nawigacja: przy szerokim ekranie przyklejona szyna — instrukcję czyta się
+   wyrywkowo („gdzie to było?”), więc spis treści musi być pod ręką. */
+.spis { align-self:start; }
+@media (min-width:1000px) { .spis { position:sticky; top:22px; } }
+.spis ol { list-style:none; margin:10px 0 0; padding:0;
+  border-left:2px solid var(--szyna); }
+.spis li { margin:0; }
+.spis a { display:flex; gap:9px; padding:7px 0 7px 14px; margin-left:-2px;
+  border-left:2px solid transparent; text-decoration:none; color:var(--tekst2);
+  font-size:14px; line-height:1.35; }
+.spis a:hover { color:var(--tekst); border-left-color:var(--niebieski); }
+.spis a b { font:600 11px/1.5 ui-monospace,Menlo,monospace; color:var(--niebieski);
+  font-variant-numeric:tabular-nums; }
+
+.wstep { background:var(--karta); border:1px solid var(--linia);
+  border-radius:10px; padding:20px 22px; display:grid; gap:10px; }
+.wstep h2 { margin:0; font-size:17px; font-weight:650; }
+.wstep p { margin:0; color:var(--tekst2); max-width:66ch; }
+.wstep strong, .krok strong { color:var(--tekst); font-weight:620; }
+
+section { scroll-margin-top:18px; }
+.tresc { display:grid; gap:38px; }
+section > header { display:grid; gap:7px; padding-bottom:12px;
+  border-bottom:1px solid var(--linia); margin-bottom:22px; }
+section > header h2 { margin:0; font-size:clamp(19px,2.4vw,23px); font-weight:650;
+  letter-spacing:-.01em; text-wrap:balance; }
+section > header p { margin:0; color:var(--tekst2); max-width:66ch; }
+
+/* Ekran obok objaśnienia — naturalny układ dla zrzutów z telefonu */
+.krok { display:grid; grid-template-columns:232px 1fr; gap:24px; align-items:start;
+  padding:18px; background:var(--karta); border:1px solid var(--linia);
+  border-radius:10px; }
+.krok + .krok { margin-top:14px; }
+.krok img { width:100%; height:auto; display:block; border-radius:8px;
+  border:1px solid var(--linia); background:var(--tlo); }
+.krok h3 { margin:4px 0 10px; font-size:16px; font-weight:650; }
+.krok .etykieta { display:block; margin-bottom:3px; }
+.krok ul { margin:0; padding-left:19px; display:grid; gap:6px; }
+@media (max-width:719px) { .krok { grid-template-columns:1fr; gap:14px; }
+  .krok img { max-width:250px; } }
+
+footer.stopka { border-top:1px solid var(--linia); padding-top:20px;
+  color:var(--tekst2); font-size:14px; display:grid; gap:8px; }
+footer.stopka strong { color:var(--tekst); }
+
+@media print {
+  body { background:#fff; }
+  .masthead { background:#fff; color:#101a2a; border-bottom:2px solid #101a2a; }
+  .masthead .wersja { border-color:#101a2a; }
+  .spis { display:none; }
+  .uklad { grid-template-columns:1fr; padding:0; }
+  .krok { break-inside:avoid; border-color:#ccc; }
+  section { break-before:page; }
+}
+@media (prefers-reduced-motion:reduce) { * { transition:none !important; } }
+</style>
+<header class="masthead"><div class="in">
+<svg class="mono" viewBox="0 0 462 331" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="matrix(1,0,0,1,-663.574463,-1632.571019)"><g transform="matrix(1.787215,0,0,1.787215,-1527.551596,-574.639979)"><path d="M1397.571,1338.345L1398.017,1382.708C1398.046,1385.629 1396.193,1388.236 1393.426,1389.169C1390.658,1390.101 1387.605,1389.147 1385.861,1386.804L1349.142,1337.482C1341.616,1327.373 1329.756,1321.417 1317.154,1321.417L1298.08,1321.417C1287.238,1321.417 1278.448,1330.206 1278.448,1341.049L1278.448,1412.364C1278.448,1414.418 1277.481,1416.352 1275.838,1417.584C1274.194,1418.816 1272.066,1419.202 1270.095,1418.626C1244.641,1411.286 1226,1387.803 1226,1360C1226,1330.291 1247.285,1305.514 1275.423,1300.099C1279.368,1263.519 1310.38,1235 1348,1235C1381.4,1235 1409.591,1257.479 1418.256,1288.121C1454.912,1290.214 1484,1319.155 1484,1354.5C1484,1382.711 1465.469,1406.842 1439.35,1416.498C1437.341,1417.223 1435.103,1416.909 1433.372,1415.659C1431.64,1414.41 1430.637,1412.385 1430.691,1410.25C1431.042,1394.109 1431.31,1359.959 1431.447,1339.019L1435.829,1343.4C1439.408,1346.98 1445.211,1346.98 1448.791,1343.4L1451.524,1340.667C1453.069,1339.122 1453.938,1337.025 1453.938,1334.839C1453.938,1332.653 1453.069,1330.557 1451.524,1329.011L1422.896,1300.383C1417.859,1295.346 1409.692,1295.346 1404.656,1300.383L1377.011,1328.028C1373.867,1331.172 1373.867,1336.269 1377.011,1339.412L1381.107,1343.509C1384.228,1346.629 1389.286,1346.629 1392.407,1343.509L1397.571,1338.345ZM1356.995,1409.276C1358.694,1411.158 1359.124,1413.864 1358.094,1416.181C1357.064,1418.498 1354.767,1419.991 1352.231,1419.991C1341.77,1420 1327.518,1420 1319.228,1420C1315.493,1420 1312.454,1416.992 1312.417,1413.257L1311.968,1368.597C1311.941,1365.865 1313.673,1363.425 1316.261,1362.549C1318.849,1361.673 1321.707,1362.559 1323.345,1364.746C1323.345,1364.746 1344.753,1393.195 1356.995,1409.276Z" style="fill:currentColor;"/></g></g></svg>
+<h1>NoviCloud GO — instrukcja obsługi</h1>
+<span class="wersja">0.36.0</span>
+</div></header>
+<div class="uklad">
+<nav class="spis" aria-label="Spis treści"><span class="etykieta">Spis treści</span><ol>
+<li><a href="#start"><b>01</b>Pierwsze uruchomienie</a></li>
+<li><a href="#inwentaryzator"><b>02</b>Praca bez logowania — tryb inwentaryzatora</a></li>
+<li><a href="#pulpit"><b>03</b>Pulpit — codzienny rzut oka</a></li>
+<li><a href="#raporty"><b>04</b>Raporty</a></li>
+<li><a href="#dokumenty"><b>05</b>Dokumenty</a></li>
+<li><a href="#towary"><b>06</b>Towary i skaner</a></li>
+<li><a href="#doradca"><b>07</b>Doradca AI</a></li>
+<li><a href="#ustawienia"><b>08</b>Ustawienia i powiadomienia</a></li>
+</ol></nav>
+<div class="tresc">
+<div class="wstep"><h2>Zanim zaczniesz</h2><p>Aplikacja jest dodatkiem do Twojego konta <strong>NoviCloud</strong>. Potrzebujesz włączonego modułu API i hasła API — to <strong>nie</strong> hasło, którym logujesz się do NoviCloud w przeglądarce.</p><p>Nie ma tu osobnego serwera: dane pobierane są wprost z Twojego NoviCloud i zostają na telefonie. Dzięki temu raporty i dokumenty przeglądasz także bez internetu.</p><p>Edycja towarów wymaga subskrypcji „API W”, a karty lojalnościowe — modułu PC-Loyalty w NoviCloud.</p><p>Zrzuty pochodzą z <strong>konta demonstracyjnego</strong>, więc kwoty i nazwy towarów są przykładowe.</p></div>
+<section id="start"><header><span class="etykieta">Rozdział 01</span><h2>Pierwsze uruchomienie</h2><p>Połączenie z kontem robisz raz — potem aplikacja pamięta dane i sama odświeża informacje w tle. Jeśli nie masz jeszcze hasła API, zacznij od pomocy „Jak się zalogować?”, która prowadzi przez ustawienia w NoviCloud.</p></header>
+<div class="krok"><img src="zrzuty/01-logowanie.png" alt="Zrzut ekranu: Ekran logowania" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Ekran logowania</h3><ul><li>W polu <strong>Nazwa bazy NoviCloud</strong> wpisz nazwę swojej bazy danych.</li><li>W polu <strong>Hasło API</strong> wpisz hasło dostępu ustawione w NoviCloud.</li><li>Naciśnij <strong>Połącz i synchronizuj</strong> — aplikacja pobierze dane i otworzy pulpit.</li><li>Pole <strong>Imię</strong> jest opcjonalne — służy tylko do powitania na pulpicie.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/02-jak-sie-zalogowac.png" alt="Zrzut ekranu: Pomoc: „Jak się zalogować?”" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Pomoc: „Jak się zalogować?”</h3><ul><li>Jeśli nie wiesz, skąd wziąć hasło API, otwórz <strong>Jak się zalogować?</strong>.</li><li>Instrukcja prowadzi przez trzy kroki w NoviCloud: włączenie modułu API, ustawienie hasła dostępu i zalogowanie w aplikacji.</li><li>Dane logowania są szyfrowane i zostają wyłącznie na Twoim telefonie.</li></ul></div></div>
+</section>
+<section id="inwentaryzator"><header><span class="etykieta">Rozdział 02</span><h2>Praca bez logowania — tryb inwentaryzatora</h2><p>Tryb inwentaryzatora służy do spisu z natury (remanentu) na urządzeniu, które nie ma dostępu do NoviCloud — na przykład na telefonie pracownika w magazynie. Działa offline: wczytujesz bazę towarów z pliku CSV, zliczasz towar skanerem, a wynik eksportujesz.</p></header>
+<div class="krok"><img src="zrzuty/04-tryb-inwentaryzatora.png" alt="Zrzut ekranu: Pusty arkusz spisu" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Pusty arkusz spisu</h3><ul><li>Wejście: przycisk <strong>Tryb inwentaryzatora</strong> na ekranie logowania.</li><li>U góry liczniki arkusza: liczba pozycji, ilość oraz wartość netto i brutto.</li><li>Pozycje dodajesz na trzy sposoby: <strong>Skanuj</strong> (czytnik kodów), <strong>Z bazy</strong> (wybór z wczytanej listy) lub <strong>Nowy</strong> (ręcznie).</li></ul></div></div>
+<div class="krok"><img src="zrzuty/05-inwentaryzator-menu.png" alt="Zrzut ekranu: Menu trybu" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Menu trybu</h3><ul><li><strong>Wczytaj bazę towarów (CSV)</strong> — wczytuje listę towarów, żeby skaner rozpoznawał kody i podpowiadał nazwy oraz ceny.</li><li><strong>Wyjdź z trybu inwentaryzatora</strong> — powrót do logowania do NoviCloud.</li><li>Ikony u góry ekranu to import pliku, eksport arkusza (CSV / XLSX / PDF) i to menu.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/06-inwentaryzator-wyjscie.png" alt="Zrzut ekranu: Ostrzeżenie przy wyjściu" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Ostrzeżenie przy wyjściu</h3><ul><li>Wyjście z trybu <strong>trwale usuwa</strong> wczytaną bazę i bieżący arkusz — dlatego aplikacja prosi o potwierdzenie.</li><li>Zanim wyjdziesz, wyeksportuj arkusz, jeśli spis nie jest skończony.</li></ul></div></div>
+</section>
+<section id="pulpit"><header><span class="etykieta">Rozdział 03</span><h2>Pulpit — codzienny rzut oka</h2><p>Pulpit to pierwszy ekran po zalogowaniu. Pokazuje sprzedaż za wybrany okres, wykres i kafelki szybkich akcji, które możesz ustawić pod siebie.</p></header>
+<div class="krok"><img src="zrzuty/07-pulpit.png" alt="Zrzut ekranu: Widok główny" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Widok główny</h3><ul><li>Karta na górze: utarg brutto za wybrany okres, obok wartość netto i marża.</li><li>Zielona pigułka <strong>Aktualne</strong> informuje, że dane w telefonie są świeże.</li><li><strong>Szybkie akcje</strong> to skróty do najczęściej używanych funkcji — przesuń w bok, aby zobaczyć kolejne, przytrzymaj kafelek, aby go zmienić.</li><li>Wykres pod kafelkami pokazuje sprzedaż w czasie; ikony nad nim przełączają słupki, linię i obszar.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/08-pulpit-okres.png" alt="Zrzut ekranu: Wybór okresu" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Wybór okresu</h3><ul><li>Dotknij napisu <strong>Sprzedaż · …</strong> u góry karty.</li><li>Wybierz okres: Dziś, 7 dni, 14 dni, ten miesiąc, ten rok lub własny zakres dat.</li><li>Wybrany okres dotyczy kwoty na karcie i wykresu.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/09-pulpit-zakres-analizy.png" alt="Zrzut ekranu: Zakres analizy — sklepy i kasy" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Zakres analizy — sklepy i kasy</h3><ul><li>Pigułka <strong>„1 sklep / 12 kas”</strong> otwiera zakres analizy.</li><li>Zaznacz, które sklepy i kasy mają być liczone — przydatne, gdy prowadzisz więcej niż jeden punkt.</li><li>Zakres obowiązuje kwotę na pulpicie, wykres i widget na ekranie głównym telefonu.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/10-pulpit-status-synchronizacji.png" alt="Zrzut ekranu: Stan synchronizacji" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Stan synchronizacji</h3><ul><li>Dotknij pigułki stanu, aby zobaczyć, kiedy ostatnio pobrano dane i ile czego jest w telefonie (towary, dokumenty, kasy).</li><li>Stąd uruchamiasz też ręczne odświeżenie, jeśli nie chcesz czekać na automatyczne.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/24-status-kas.png" alt="Zrzut ekranu: Status kas" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Status kas</h3><ul><li>Kafelek <strong>Status kas</strong> pokazuje, czy kasy komunikują się z chmurą.</li><li>Zielona kropka to kasa, która synchronizuje się normalnie; żółta i czerwona oznaczają rosnące opóźnienie.</li><li>Progi ostrzeżeń ustawisz w <em>Ustawieniach → Progi alarmów kas</em>.</li></ul></div></div>
+</section>
+<section id="raporty"><header><span class="etykieta">Rozdział 04</span><h2>Raporty</h2><p>Zakładka <strong>Raporty</strong> to spis wszystkich zestawień. Każdy raport ma wybór okresu, a większość także filtry i eksport do PDF lub CSV.</p></header>
+<div class="krok"><img src="zrzuty/11-raporty-lista.png" alt="Zrzut ekranu: Lista raportów" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Lista raportów</h3><ul><li>Na górze <strong>Raport dnia</strong> — najszybsza odpowiedź na pytanie „co się dzisiaj stało”.</li><li>Niżej raporty szczegółowe: sprzedaży, wg kart rabatowych, wg kontrahentów, kasjerski, obrót gotówki.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/11-raporty-lista-2.png" alt="Zrzut ekranu: Dalsze raporty" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Dalsze raporty</h3><ul><li>Po przewinięciu: raport rabatów, zwrotów, stany magazynowe i sprzedaż opakowań.</li><li>Każda pozycja ma opis, więc nie musisz zgadywać, co zawiera.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/12-raport-dnia.png" alt="Zrzut ekranu: Raport dnia" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Raport dnia</h3><ul><li>Sprzedaż dnia, liczba dokumentów i średni paragon w jednym miejscu.</li><li>Dwa porównania: z <strong>wczoraj</strong> i z <strong>tym samym dniem tygodnia</strong> — drugie jest miarodajniejsze w handlu (weekend do weekendu).</li><li>Sekcja <strong>Warto sprawdzić</strong> pojawia się, gdy któryś kasjer odstaje od pozostałych rabatami, zwrotami lub anulowanymi paragonami.</li><li>Ikona kalendarza zmienia dzień, ikona udostępniania tworzy PDF do wysłania.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/12-raport-dnia-2.png" alt="Zrzut ekranu: Raport dnia — dalsza część" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Raport dnia — dalsza część</h3><ul><li>Sprzedaż wg kas i wg kasjerów pokazuje, gdzie i przez kogo powstał utarg.</li><li><strong>Top towary</strong> to najlepiej sprzedające się pozycje dnia.</li><li>Cały raport liczy się z danych już pobranych na telefon — działa też bez internetu.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/13-raport-sprzedazy.png" alt="Zrzut ekranu: Raport sprzedaży" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Raport sprzedaży</h3><ul><li>Najbardziej rozbudowane zestawienie. Wybierz <strong>grupowanie</strong> (towar, asortyment, sklep, kasa, kasjer, forma płatności, VAT) i okres.</li><li>Każdy wiersz ma kwotę i udział procentowy w całości.</li><li>Ikona u góry eksportuje wynik do PDF lub CSV — z uwzględnieniem filtrów.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/14-raport-sprzedazy-filtry.png" alt="Zrzut ekranu: Filtry raportu" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Filtry raportu</h3><ul><li>Przycisk <strong>Filtry</strong> otwiera drzewko: sklepy, kasy, asortymenty i towary.</li><li>Sekcje rozwijasz dotknięciem; w towarach jest wyszukiwarka.</li><li>Filtry obowiązują zarówno wyniki na ekranie, jak i eksport.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/15-raport-kasjerski.png" alt="Zrzut ekranu: Raport kasjerski" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Raport kasjerski</h3><ul><li>Praca obsługi: utarg, czas pracy, liczba paragonów i faktur, storna i anulowane.</li><li>Przełącznik u góry zmienia analizę na kasjerów, kasy lub sklepy.</li><li>Wiersz zmiany rozwiniesz, aby zobaczyć formy płatności oraz wpłaty i wypłaty gotówki.</li></ul></div></div>
+</section>
+<section id="dokumenty"><header><span class="etykieta">Rozdział 05</span><h2>Dokumenty</h2><p>Podgląd wystawionych dokumentów — paragonów, faktur, korekt, przyjęć i wydań. Dokumenty są przeglądane z pamięci telefonu, więc lista działa też bez sieci.</p></header>
+<div class="krok"><img src="zrzuty/16-dokumenty-lista.png" alt="Zrzut ekranu: Lista dokumentów" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Lista dokumentów</h3><ul><li>Szukaj po numerze, typie lub kwocie; zawężaj okres i typ dokumentu.</li><li>Nagłówki dni pokazują sumę sprzedaży danego dnia.</li><li>Lista doczytuje się w miarę przewijania — nie trzeba czekać na wszystko naraz.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/17-dokument-szczegoly.png" alt="Zrzut ekranu: Szczegóły dokumentu" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Szczegóły dokumentu</h3><ul><li>Dotknij wiersza, aby zobaczyć pozycje, rozbicie VAT i formy płatności.</li><li>U góry jest wyraźna informacja, że to <strong>podgląd, a nie dokument fiskalny</strong>.</li><li>Dokument możesz wyeksportować do PDF (kopia do wysłania).</li></ul></div></div>
+</section>
+<section id="towary"><header><span class="etykieta">Rozdział 06</span><h2>Towary i skaner</h2><p>Katalog towarów z Twojego NoviCloud wraz z cenami i stanami, plus skaner kodów kreskowych do szybkiego sprawdzania towaru.</p></header>
+<div class="krok"><img src="zrzuty/18-towary-lista.png" alt="Zrzut ekranu: Katalog towarów" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Katalog towarów</h3><ul><li>Szukaj po nazwie lub kodzie; filtruj po statusie (aktywne / nieaktywne) i dziale.</li><li>Menu „⋯” u góry daje dostęp do pliku magazynowego, etykiet cenowych i eksportów.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/19-towar-szczegoly.png" alt="Zrzut ekranu: Karta towaru" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Karta towaru</h3><ul><li>Cena detaliczna, stawka VAT, jednostka miary, dział i kod EAN.</li><li>Skróty prowadzą do historii sprzedaży towaru i informacji o produkcie.</li><li>Edycja i dodawanie towarów wymaga włączonego zapisu do NoviCloud (subskrypcja „API W”).</li></ul></div></div>
+<div class="krok"><img src="zrzuty/20-skaner.png" alt="Zrzut ekranu: Skaner kodów" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Skaner kodów</h3><ul><li>Skieruj telefon na kod kreskowy — aplikacja od razu pokaże nazwę, cenę, stan i VAT.</li><li><strong>Skanuj dalej</strong> pozwala sprawdzać kolejne towary bez wychodzenia z ekranu.</li><li>Ikona błyskawicy u góry włącza doświetlenie.</li></ul></div></div>
+</section>
+<section id="doradca"><header><span class="etykieta">Rozdział 07</span><h2>Doradca AI</h2><p>Podpowiedzi liczone <strong>na telefonie</strong> — bez wysyłania danych na zewnątrz i bez dodatkowych opłat. Opcjonalnie możesz włączyć czat, który wymaga własnego darmowego klucza Google Gemini.</p></header>
+<div class="krok"><img src="zrzuty/21-doradca-ai.png" alt="Zrzut ekranu: Na dziś i prognozy" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Na dziś i prognozy</h3><ul><li>Karta <strong>Na dziś</strong> daje prognozę sprzedaży i ostrzega, gdy trend spada.</li><li>Każda liczba ma rozwijane <strong>„Dlaczego?”</strong> z pełnym wyliczeniem — zamiast wierzyć na słowo, możesz sprawdzić, skąd się wzięła.</li><li>Alerty zwracają uwagę na sytuacje wymagające reakcji.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/21-doradca-ai-2.png" alt="Zrzut ekranu: Analiza ABC" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Analiza ABC</h3><ul><li>Towary podzielone według udziału w obrocie: klasa A daje 80% obrotu, B kolejne 15%, C resztę.</li><li>Praktyczny wniosek: klasy A pilnuj najbardziej — jej brak na półce boli najszybciej.</li><li>Niżej znajdziesz sugestie zamówień z zapasem bezpieczeństwa.</li></ul></div></div>
+</section>
+<section id="ustawienia"><header><span class="etykieta">Rozdział 08</span><h2>Ustawienia i powiadomienia</h2><p>Ustawienia otwierasz kołem zębatym na pulpicie. Znajdziesz tu bezpieczeństwo, wygląd, powiadomienia, informacje o danych w telefonie i pomoc.</p></header>
+<div class="krok"><img src="zrzuty/22-ustawienia.png" alt="Zrzut ekranu: Profil i ustawienia" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Profil i ustawienia</h3><ul><li><strong>Blokada biometryczna</strong> — odcisk palca lub Face ID przy wejściu do aplikacji.</li><li><strong>Zapis do NoviCloud</strong> — włącz, jeśli masz subskrypcję „API W” i chcesz edytować towary z telefonu.</li><li>Sekcja <strong>Konto i dane</strong> pokazuje, ile danych jest w telefonie i kiedy była ostatnia synchronizacja.</li></ul></div></div>
+<div class="krok"><img src="zrzuty/23-ustawienia-powiadomienia.png" alt="Zrzut ekranu: Wygląd i powiadomienia" loading="lazy"><div><span class="etykieta">Ekran</span><h3>Wygląd i powiadomienia</h3><ul><li>Motyw jasny, ciemny lub systemowy oraz schemat kolorów do wyboru.</li><li><strong>Podsumowanie i alerty</strong> — wieczorne podsumowanie sprzedaży o wybranej godzinie oraz ostrzeżenia o kasach bez synchronizacji.</li><li>Powiadomienia powstają w telefonie — nic nie jest wysyłane na zewnątrz, żeby się pojawiły.</li></ul></div></div>
+</section>
+<footer class="stopka"><p><strong>Pytania i zgłoszenia:</strong> next@novitus.pl — najszybciej pomożemy z załączonym dziennikiem zdarzeń (Ustawienia → Dziennik zdarzeń → Udostępnij).</p><p>Dane i wyliczenia w aplikacji mają charakter pomocniczy; w razie wątpliwości weryfikuj je w NoviCloud.</p><p>NoviCloud GO 0.36.0 · instrukcja z 27 lipca 2026, na podstawie zrzutów z urządzenia z Androidem.</p></footer>
+</div></div>
