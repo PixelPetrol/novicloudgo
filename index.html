@@ -43,19 +43,30 @@
   --cien:0 1px 2px rgba(11,19,32,.06), 0 12px 28px -12px rgba(11,19,32,.18);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:88px}
 body{margin:0;background:var(--papier);color:var(--tekst);
   font:400 16.5px/1.68 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased;letter-spacing:-.005em}
 img{max-width:100%;height:auto;display:block}
 a{color:var(--lazur)}
-a:focus-visible,button:focus-visible{outline:2px solid var(--pomarancz);
-  outline-offset:3px;border-radius:8px}
+/* Fokus jako dwa pierścienie: ciemna linia + biała otoczka — widoczny i na
+   pomarańczowym przycisku, i na ciemnym granacie (pomarańcz na pomarańczu
+   miał kontrast 1:1). */
+a:focus-visible,button:focus-visible{outline:2px solid var(--tekst);
+  outline-offset:3px;border-radius:8px;box-shadow:0 0 0 5px rgba(255,255,255,.95)}
 h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
   text-wrap:balance;margin:0}
 .in{max-width:var(--max);margin:0 auto;padding:0 24px}
-.etyk{display:inline-block;font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--lazur)}
+/* link „przejdź do treści” — widoczny tylko po wejściu Tabem */
+.pomin{position:absolute;left:-9999px;top:0;z-index:30;background:var(--papier);
+  color:var(--tekst);padding:12px 18px;border-radius:0 0 10px 0;font-weight:650;
+  text-decoration:none}
+.pomin:focus{left:0}
+/* Nadtytuły sekcji: na jasnym tle ciemniejszy błękit (4,5:1+); jasny lazur
+   zostaje tylko na ciemnych pasach, gdzie ma kontrast 6+. */
+.etyk{display:inline-block;font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.12em;text-transform:uppercase;color:#1668ad}
+.hero .etyk,.prywatnosc .etyk{color:var(--lazur)}
 
 /* ── Pasek nawigacji: przyklejony, z rozmyciem tła ─────────────────── */
 .pasek{position:sticky;top:0;z-index:20;background:rgba(11,19,32,.82);
@@ -66,7 +77,7 @@ h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
 .marka svg{width:32px;height:23px;color:var(--niebieski)}
 .nawig{margin-left:auto;display:flex;align-items:center;gap:6px}
 .nawig a{color:#b9cadd;text-decoration:none;font-size:14.5px;font-weight:500;
-  padding:8px 12px;border-radius:8px;transition:color .18s,background .18s}
+  padding:10px 12px;border-radius:8px;transition:color .18s,background .18s}
 .nawig a:hover{color:#fff;background:rgba(255,255,255,.07)}
 .nawig a.mocny{background:var(--pomarancz);color:#241503;font-weight:650}
 .nawig a.mocny:hover{background:#ffa11c}
@@ -114,10 +125,11 @@ h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
   top:14px;width:56px;height:5px;border-radius:99px;background:rgba(255,255,255,.18)}
 .hero .rama{margin-bottom:-16px}
 
-/* pasek liczb pod hero */
+/* pasek liczb pod hero — własne wyśrodkowanie zamiast klasy .in, bo
+   selektor .hero .in wygrywał specyficznością i rozjeżdżał siatkę */
 .fakty{position:relative;display:grid;gap:1px;background:rgba(255,255,255,.09);
   border-top:1px solid rgba(255,255,255,.09);grid-template-columns:1fr 1fr;
-  margin-top:52px}
+  max-width:var(--max);margin:52px auto 0}
 @media (min-width:760px){.fakty{grid-template-columns:repeat(4,1fr)}}
 .fakt{background:var(--granat);padding:22px 24px}
 .fakt b{display:block;font-family:Sora;font-size:19px;font-weight:700;color:#fff;
@@ -185,6 +197,12 @@ section{padding:74px 0}
   color:var(--niebieski)}
 .krok h3{margin:12px 0 9px;font-size:18px;font-weight:680}
 .krok p{margin:0;color:var(--tekst2);font-size:15.5px}
+.wymagania{margin-top:28px;background:var(--mgla);border:1px solid var(--linia);
+  border-radius:var(--r);padding:22px 26px}
+.wymagania h3{font-size:16px;font-weight:680;margin:0 0 9px}
+.wymagania ul{margin:0;padding-left:19px;color:var(--tekst2);font-size:15.5px}
+.wymagania li{margin-bottom:6px}
+.wymagania p{margin:12px 0 0;color:var(--tekst2);font-size:15.5px}
 
 footer{background:var(--granat);color:#93a8bd;padding:56px 0 60px;font-size:14.5px}
 footer .in{display:grid;gap:28px}
@@ -192,7 +210,8 @@ footer .in{display:grid;gap:28px}
 footer h4{margin:0 0 12px;color:#fff;font-family:Sora;font-size:14px;
   font-weight:650;letter-spacing:.01em}
 footer p{margin:0}
-footer a{color:#c2d3e5;text-decoration:none;display:block;margin-bottom:8px}
+footer a{color:#c2d3e5;text-decoration:none;display:block;padding:9px 0;
+  margin-bottom:2px}
 footer a:hover{color:#fff;text-decoration:underline}
 .drobne{border-top:1px solid rgba(255,255,255,.11);margin-top:6px;padding-top:22px;
   grid-column:1/-1;color:#75899d;font-size:13px;max-width:88ch}
@@ -217,6 +236,8 @@ footer a:hover{color:#fff;text-decoration:underline}
 document.documentElement.classList.add('js');
 </script>
 
+<a class="pomin" href="#tresc">Przejdź do treści</a>
+
 <div class="pasek">
   <div class="in">
     <span class="marka">
@@ -232,30 +253,33 @@ document.documentElement.classList.add('js');
   </div>
 </div>
 
+<main id="tresc">
+
 <div class="hero">
   <div class="in">
     <div>
       <span class="etyk">Aplikacja mobilna do systemu NoviCloud</span>
       <h1>Twój sklep w telefonie.<br><em>Bez włączania komputera.</em></h1>
       <p class="lead">Sprzedaż, raporty, dokumenty i towary z Twojego konta
-        NoviCloud — na telefonie i tablecie. Dane pobierają się w tle, więc
-        raporty otwierasz nawet bez internetu.</p>
+        NoviCloud — na telefonie i tablecie. Dane odświeżają się same, gdy
+        aplikacja jest otwarta, a raport dnia i listę dokumentów otworzysz
+        nawet bez zasięgu.</p>
       <div class="przyciski">
         <a class="btn btn-main" href="instrukcja/">Zobacz instrukcję</a>
-        <a class="btn btn-alt" href="#funkcje">Co potrafi</a>
+        <a class="btn btn-alt" href="mailto:next@novitus.pl">Zapytaj o dostęp</a>
       </div>
-      <p class="pod-przyciskami">Wkrótce w Google Play i App Store ·
-        wymaga konta NoviCloud z modułem API</p>
+      <p class="pod-przyciskami">Publikacja w Google Play w przygotowaniu ·
+        aplikacja bezpłatna dla klientów NoviCloud</p>
     </div>
     <div class="hero-fig">
       <div class="rama">
-        <img src="img/07-pulpit.png" width="540" height="1144"
+        <img src="img/07-pulpit.webp" width="540" height="1144" fetchpriority="high"
              alt="Pulpit aplikacji: sprzedaż dnia, kafelki szybkich akcji i wykres">
       </div>
     </div>
   </div>
-  <div class="fakty in" style="max-width:var(--max)">
-    <div class="fakt"><b>Offline</b><span>raporty i dokumenty bez sieci</span></div>
+  <div class="fakty">
+    <div class="fakt"><b>Offline</b><span>raport dnia i dokumenty bez sieci</span></div>
     <div class="fakt"><b>Android i iOS</b><span>telefon oraz tablet</span></div>
     <div class="fakt"><b>Bez reklam</b><span>zero śledzenia i analityki</span></div>
     <div class="fakt"><b>Doradca</b><span>prognozy liczone na urządzeniu</span></div>
@@ -298,7 +322,7 @@ document.documentElement.classList.add('js');
           <li>Paragony, faktury i korekty z pozycjami i rozbiciem VAT</li>
           <li>Szukanie po numerze, typie albo kwocie</li>
           <li>Eksport kopii dokumentu do PDF</li>
-          <li>Karty lojalnościowe klientów</li>
+          <li>Karty lojalnościowe klientów (wymaga modułu PC-Loyalty)</li>
         </ul>
       </div>
     </div>
@@ -315,7 +339,8 @@ document.documentElement.classList.add('js');
     </div>
 
     <div class="pokaz odslon">
-      <div class="rama"><img src="img/12-raport-dnia.png" width="540" height="1144"
+      <div class="rama"><img src="img/12-raport-dnia.webp" width="540" height="1144"
+        loading="lazy" decoding="async"
         alt="Raport dnia: sprzedaż, porównanie z wczoraj, podział na kasy i kasjerów"></div>
       <div class="txt">
         <h3>Raport dnia</h3>
@@ -331,7 +356,8 @@ document.documentElement.classList.add('js');
     </div>
 
     <div class="pokaz odwrot odslon">
-      <div class="rama"><img src="img/20-skaner.png" width="540" height="1144"
+      <div class="rama"><img src="img/20-skaner.webp" width="540" height="1144"
+        loading="lazy" decoding="async"
         alt="Skaner kodów pokazuje nazwę, cenę detaliczną i stan towaru"></div>
       <div class="txt">
         <h3>Skaner przy półce</h3>
@@ -345,7 +371,8 @@ document.documentElement.classList.add('js');
     </div>
 
     <div class="pokaz odslon">
-      <div class="rama"><img src="img/15-raport-kasjerski.png" width="540" height="1144"
+      <div class="rama"><img src="img/15-raport-kasjerski.webp" width="540" height="1144"
+        loading="lazy" decoding="async"
         alt="Raport kasjerski: zmiany, czas pracy, utarg i formy płatności"></div>
       <div class="txt">
         <h3>Kontrola zmian</h3>
@@ -359,7 +386,8 @@ document.documentElement.classList.add('js');
     </div>
 
     <div class="pokaz odwrot odslon">
-      <div class="rama"><img src="img/21-doradca-ai.png" width="540" height="1144"
+      <div class="rama"><img src="img/21-doradca-ai.webp" width="540" height="1144"
+        loading="lazy" decoding="async"
         alt="Doradca: prognoza sprzedaży, alerty i analiza ABC"></div>
       <div class="txt">
         <h3>Doradca liczony na telefonie</h3>
@@ -383,7 +411,11 @@ document.documentElement.classList.add('js');
       <span class="etyk">Prywatność</span>
       <h2>Twoje dane zostają u Ciebie</h2>
       <p>Aplikacja nie ma własnego serwera. Łączy się wprost z Twoim NoviCloud,
-        a to, co pobierze, trzyma w telefonie.</p>
+        a to, co pobierze, trzyma w telefonie. Poza NoviCloud pyta tylko dwie
+        usługi i tylko wtedy, gdy sam o to poprosisz: Open Food Facts (wysyłany
+        jest sam kod kreskowy — stąd skład i alergeny) oraz prognozę pogody dla
+        podanej miejscowości, jeśli włączysz codzienne podpowiedzi Doradcy.
+        Nigdy nie wychodzą dane Twojej sprzedaży ani klientów.</p>
     </div>
     <div class="karty">
       <div class="karta odslon">
@@ -433,11 +465,24 @@ document.documentElement.classList.add('js');
           pobierze towary, dokumenty i kasy.</p>
       </div>
     </div>
+    <div class="wymagania odslon">
+      <h3>Wymagania</h3>
+      <ul>
+        <li>Konto NoviCloud z aktywnym modułem API (REST)</li>
+        <li>Subskrypcja „API W” — tylko jeśli chcesz dodawać i edytować towary</li>
+        <li>Moduł PC-Loyalty — dla kart lojalnościowych</li>
+        <li>Android 7.0+ lub iOS 13+; kamera w telefonie dla skanera</li>
+      </ul>
+      <p>Nie masz pewności, co obejmuje Twoje konto? Napisz:
+        <a href="mailto:next@novitus.pl">next@novitus.pl</a>.</p>
+    </div>
     <div class="przyciski">
       <a class="btn btn-main" href="instrukcja/">Pełna instrukcja ze zrzutami</a>
     </div>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="in">
@@ -455,11 +500,10 @@ document.documentElement.classList.add('js');
       <h4>Kontakt</h4>
       <a href="mailto:next@novitus.pl">next@novitus.pl</a>
     </div>
-    <p class="drobne">Strona tymczasowa, przygotowana na potrzeby prezentacji
-      aplikacji — docelowo treść trafi na domenę firmową. Zrzuty ekranu pochodzą
-      z konta demonstracyjnego, więc kwoty i nazwy towarów są przykładowe. Dane
-      i wyliczenia prezentowane w aplikacji mają charakter pomocniczy; w razie
-      wątpliwości należy je weryfikować w NoviCloud.</p>
+    <p class="drobne">Zrzuty ekranu pochodzą z konta demonstracyjnego, więc
+      kwoty i nazwy towarów są przykładowe. Dane i wyliczenia prezentowane
+      w aplikacji mają charakter pomocniczy; w razie wątpliwości należy je
+      weryfikować w NoviCloud.</p>
   </div>
 </footer>
 
