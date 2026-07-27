@@ -5,201 +5,289 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NoviCloud GO — Twój NoviCloud w kieszeni</title>
 <meta name="description" content="NoviCloud GO to mobilna aplikacja do systemu sprzedaży NoviCloud: pulpit sprzedaży, raporty, dokumenty, towary ze skanerem i Doradca liczony na telefonie. Bez reklam, bez śledzenia.">
-<meta name="theme-color" content="#0e1726">
+<meta name="theme-color" content="#0b1320">
 <link rel="icon" href="img/monogram.svg" type="image/svg+xml">
 <meta property="og:title" content="NoviCloud GO — Twój NoviCloud w kieszeni">
 <meta property="og:description" content="Sprzedaż, raporty, dokumenty i towary z systemu NoviCloud — na telefonie i tablecie, także offline.">
 <meta property="og:type" content="website">
+<link rel="preload" href="fonts/sora-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/manrope-var.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-/* Barwy wprost z logo i z aplikacji: granat tła, firmowy niebieski #237CFD
-   (z monogramu), lazur #138DD1 (ze strony NoviCloud), pomarańcz akcentu
-   #F08C00 (przyciski w aplikacji). Neutralne z domieszką błękitu. */
+/* Kroje hostowane u nas — strona nie robi ŻADNYCH zapytań na zewnątrz
+   (obiecujemy brak śledzenia, więc nie wciągamy fontów z CDN-u).
+   Sora = nagłówki (geometryczna, echo szerokiego „GO” z logo),
+   Manrope = tekst (humanistyczna, dobrze czyta się na małych rozmiarach). */
+@font-face{font-family:Sora;src:url(fonts/sora-var.woff2) format("woff2-variations");
+  font-weight:600 800;font-display:swap;font-style:normal}
+@font-face{font-family:Manrope;src:url(fonts/manrope-var.woff2) format("woff2-variations");
+  font-weight:200 800;font-display:swap;font-style:normal}
+
+/* Barwy z logo i z aplikacji: granat tła, firmowy niebieski #237CFD
+   (monogram), lazur #138DD1 (strona NoviCloud), pomarańcz #F08C00 (akcent
+   przycisków w aplikacji). Neutralne z domieszką błękitu. */
 :root{
-  --granat:#0e1726; --granat2:#152232;
-  --niebieski:#237cfd; --lazur:#138dd1; --pomarancz:#f08c00;
-  --mgla:#eef3f9; --papier:#ffffff; --tekst:#16212e; --tekst2:#5a6b7d;
-  --linia:rgba(22,33,46,.12);
-  --max:1120px;
+  --granat:#0b1320; --granat2:#101c2c; --granat3:#16243a;
+  --niebieski:#237cfd; --lazur:#3aa3e0; --pomarancz:#f08c00;
+  --mgla:#eff4fa; --blekit:#e4f0fa; --papier:#fff;
+  --tekst:#111c2a; --tekst2:#586b7f; --linia:rgba(17,28,42,.11);
+  --max:1140px; --r:16px;
+  --cien:0 1px 2px rgba(11,19,32,.06), 0 12px 28px -12px rgba(11,19,32,.18);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--papier);color:var(--tekst);
-  font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased}
+  font:400 16.5px/1.68 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;letter-spacing:-.005em}
 img{max-width:100%;height:auto;display:block}
 a{color:var(--lazur)}
-a:focus-visible,button:focus-visible{outline:2px solid var(--pomarancz);outline-offset:3px;border-radius:6px}
-.in{max-width:var(--max);margin:0 auto;padding:0 22px}
-.etyk{font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--lazur)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--pomarancz);
+  outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
+  text-wrap:balance;margin:0}
+.in{max-width:var(--max);margin:0 auto;padding:0 24px}
+.etyk{display:inline-block;font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--lazur)}
 
-/* ── Nagłówek + hero ─────────────────────────────────────────────── */
-header{background:var(--granat);color:#fff}
-nav{display:flex;align-items:center;gap:14px;padding:16px 0}
-nav .marka{display:flex;align-items:center;gap:11px;font-weight:650;letter-spacing:-.01em}
-nav .marka svg{width:34px;height:25px;color:var(--niebieski)}
-nav .linki{margin-left:auto;display:flex;gap:20px;font-size:15px}
-nav .linki a{color:#c9d8e8;text-decoration:none}
-nav .linki a:hover{color:#fff}
-@media (max-width:560px){nav .linki a:first-child{display:none}}
+/* ── Pasek nawigacji: przyklejony, z rozmyciem tła ─────────────────── */
+.pasek{position:sticky;top:0;z-index:20;background:rgba(11,19,32,.82);
+  backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+.pasek .in{display:flex;align-items:center;gap:16px;padding:14px 24px}
+.marka{display:flex;align-items:center;gap:11px;color:#fff;font-family:Sora;
+  font-weight:700;font-size:16.5px;letter-spacing:-.02em}
+.marka svg{width:32px;height:23px;color:var(--niebieski)}
+.nawig{margin-left:auto;display:flex;align-items:center;gap:6px}
+.nawig a{color:#b9cadd;text-decoration:none;font-size:14.5px;font-weight:500;
+  padding:8px 12px;border-radius:8px;transition:color .18s,background .18s}
+.nawig a:hover{color:#fff;background:rgba(255,255,255,.07)}
+.nawig a.mocny{background:var(--pomarancz);color:#241503;font-weight:650}
+.nawig a.mocny:hover{background:#ffa11c}
+@media (max-width:640px){.nawig a:not(.mocny){display:none}}
 
-.hero{position:relative;overflow:hidden;background:var(--granat)}
-.hero::before{content:"";position:absolute;inset:-30% -10% auto 40%;height:120%;
-  background:radial-gradient(closest-side,rgba(35,124,253,.30),transparent 70%);
-  pointer-events:none}
-.hero .in{position:relative;display:grid;gap:38px;padding:44px 22px 56px;
+/* ── Hero ──────────────────────────────────────────────────────────── */
+.hero{position:relative;background:var(--granat);color:#fff;overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,.07)}
+/* delikatna siatka + poświata w barwie marki: „chmura” z logo */
+.hero::before{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(120% 80% at 50% 0,#000,transparent 75%)}
+.hero::after{content:"";position:absolute;width:820px;height:820px;right:-180px;
+  top:-320px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(35,124,253,.38),transparent 72%)}
+.hero .in{position:relative;display:grid;gap:44px;padding:62px 24px 0;
   grid-template-columns:1fr}
-@media (min-width:900px){.hero .in{grid-template-columns:1.15fr .85fr;
-  align-items:center;padding:64px 22px 72px}}
-.hero h1{margin:14px 0 14px;font-size:clamp(30px,5.4vw,52px);line-height:1.06;
-  font-weight:680;letter-spacing:-.025em;color:#fff;text-wrap:balance}
-.hero h1 em{font-style:normal;color:var(--niebieski)}
-.hero p.lead{margin:0;color:#c3d3e4;font-size:clamp(16px,2vw,19px);max-width:52ch}
-.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.btn{display:inline-block;padding:13px 22px;border-radius:9px;font-weight:620;
-  text-decoration:none;font-size:15px}
-.btn-main{background:var(--pomarancz);color:#241503}
-.btn-main:hover{filter:brightness(1.07)}
-.btn-alt{border:1px solid rgba(255,255,255,.3);color:#fff}
-.btn-alt:hover{background:rgba(255,255,255,.08)}
-.sklepy{margin-top:16px;font-size:13px;color:#93a7bb}
-.telefon{justify-self:center;max-width:270px;border-radius:22px;
-  border:1px solid rgba(255,255,255,.16);box-shadow:0 26px 60px rgba(0,0,0,.45)}
+@media (min-width:920px){.hero .in{grid-template-columns:1.08fr .92fr;
+  align-items:end;padding:84px 24px 0;gap:30px}}
+.hero h1{margin:16px 0 18px;font-size:clamp(33px,5.6vw,58px);line-height:1.03;
+  font-weight:750}
+.hero h1 em{font-style:normal;
+  background:linear-gradient(96deg,var(--niebieski),#63b8ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{margin:0;color:#c0d0e2;font-size:clamp(16.5px,1.9vw,19.5px);max-width:50ch}
+.przyciski{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 24px;
+  border-radius:11px;font-weight:650;text-decoration:none;font-size:15.5px;
+  font-family:Manrope;transition:transform .18s,background .18s,box-shadow .18s}
+.btn:hover{transform:translateY(-1px)}
+.btn-main{background:var(--pomarancz);color:#241503;
+  box-shadow:0 8px 24px -8px rgba(240,140,0,.6)}
+.btn-main:hover{background:#ffa11c}
+.btn-alt{border:1px solid rgba(255,255,255,.26);color:#fff}
+.btn-alt:hover{background:rgba(255,255,255,.09)}
+.pod-przyciskami{margin:18px 0 0;font-size:13.5px;color:#8fa4ba}
+.hero-fig{position:relative;justify-self:center;padding-bottom:0}
+/* rama „urządzenia”: cienki bezel + odbicie, zamiast płaskiego obrazka */
+.rama{position:relative;width:min(272px,72vw);padding:9px;border-radius:30px;
+  background:linear-gradient(160deg,#2b3c52,#151f2e);
+  box-shadow:0 40px 80px -28px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.07)}
+.rama img{border-radius:22px}
+.rama::after{content:"";position:absolute;left:50%;transform:translateX(-50%);
+  top:14px;width:56px;height:5px;border-radius:99px;background:rgba(255,255,255,.18)}
+.hero .rama{margin-bottom:-16px}
 
-/* ── Sekcje ──────────────────────────────────────────────────────── */
-section{padding:60px 0}
-section h2{margin:8px 0 10px;font-size:clamp(23px,3.2vw,32px);font-weight:670;
-  letter-spacing:-.02em;text-wrap:balance}
-section .wstep{color:var(--tekst2);max-width:62ch;margin:0}
+/* pasek liczb pod hero */
+.fakty{position:relative;display:grid;gap:1px;background:rgba(255,255,255,.09);
+  border-top:1px solid rgba(255,255,255,.09);grid-template-columns:1fr 1fr;
+  margin-top:52px}
+@media (min-width:760px){.fakty{grid-template-columns:repeat(4,1fr)}}
+.fakt{background:var(--granat);padding:22px 24px}
+.fakt b{display:block;font-family:Sora;font-size:19px;font-weight:700;color:#fff;
+  letter-spacing:-.02em}
+.fakt span{font-size:13.5px;color:#8fa4ba}
+
+/* ── Sekcje ────────────────────────────────────────────────────────── */
+section{padding:74px 0}
 .mgla{background:var(--mgla)}
+.naglowek{max-width:66ch}
+.naglowek h2{margin:10px 0 12px;font-size:clamp(25px,3.4vw,36px);font-weight:700}
+.naglowek p{margin:0;color:var(--tekst2);font-size:17px}
 
-.karty{display:grid;gap:18px;margin-top:34px;grid-template-columns:1fr}
-@media (min-width:680px){.karty{grid-template-columns:1fr 1fr}}
+.karty{display:grid;gap:20px;margin-top:40px;grid-template-columns:1fr}
+@media (min-width:700px){.karty{grid-template-columns:1fr 1fr}}
 @media (min-width:1000px){.karty{grid-template-columns:repeat(3,1fr)}}
-.karta{background:var(--papier);border:1px solid var(--linia);border-radius:12px;
-  padding:22px}
-.mgla .karta{background:var(--papier)}
-.karta h3{margin:10px 0 8px;font-size:17px;font-weight:650}
-.karta p{margin:0;color:var(--tekst2);font-size:15px}
-.karta ul{margin:10px 0 0;padding-left:19px;color:var(--tekst2);font-size:15px}
-.karta li{margin-bottom:5px}
+.karta{background:var(--papier);border:1px solid var(--linia);border-radius:var(--r);
+  padding:26px;box-shadow:var(--cien);transition:transform .2s,box-shadow .2s}
+.karta:hover{transform:translateY(-3px);
+  box-shadow:0 2px 4px rgba(11,19,32,.06),0 22px 44px -16px rgba(11,19,32,.28)}
+.ikona{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:var(--blekit);color:var(--niebieski);margin-bottom:16px}
+.ikona svg{width:21px;height:21px}
+.karta h3{font-size:18.5px;font-weight:680;margin-bottom:10px}
+.karta ul{margin:0;padding-left:19px;color:var(--tekst2);font-size:15.5px}
+.karta li{margin-bottom:7px}
+.karta li:last-child{margin-bottom:0}
 
-/* Pokaz: zrzut obok opisu, naprzemiennie */
-.pokaz{display:grid;gap:30px;align-items:center;grid-template-columns:1fr;
-  padding:26px 0;border-top:1px solid var(--linia)}
-@media (min-width:820px){.pokaz{grid-template-columns:250px 1fr;gap:44px}
-  .pokaz.odwrot{grid-template-columns:1fr 250px}
+/* Pokaz funkcji: urządzenie obok opisu, naprzemiennie */
+.pokaz{display:grid;gap:34px;align-items:center;grid-template-columns:1fr;
+  padding:44px 0}
+.pokaz + .pokaz{border-top:1px solid var(--linia)}
+@media (min-width:860px){
+  .pokaz{grid-template-columns:290px 1fr;gap:56px}
+  .pokaz.odwrot{grid-template-columns:1fr 290px}
   .pokaz.odwrot .txt{order:-1}}
-.pokaz img{border-radius:12px;border:1px solid var(--linia);justify-self:center;
-  max-width:250px}
-.pokaz h3{margin:6px 0 10px;font-size:20px;font-weight:660;letter-spacing:-.01em}
-.pokaz p{margin:0 0 10px;color:var(--tekst2)}
+.pokaz .rama{width:min(250px,70vw);justify-self:center;
+  box-shadow:0 30px 60px -26px rgba(11,19,32,.55),0 0 0 1px rgba(17,28,42,.08)}
+.pokaz h3{font-size:clamp(21px,2.6vw,26px);font-weight:700;margin:8px 0 12px}
+.pokaz p{margin:0 0 14px;color:var(--tekst2);font-size:16.5px;max-width:52ch}
 .pokaz ul{margin:0;padding-left:20px;color:var(--tekst2)}
-.pokaz li{margin-bottom:6px}
+.pokaz li{margin-bottom:8px}
 
 /* Prywatność — ciemny pas, bo to najmocniejsza obietnica produktu */
-.prywatnosc{background:var(--granat2);color:#fff}
-.prywatnosc h2{color:#fff}
-.prywatnosc .wstep{color:#bccddf}
-.prywatnosc .karty{grid-template-columns:1fr}
-@media (min-width:760px){.prywatnosc .karty{grid-template-columns:repeat(3,1fr)}}
-.prywatnosc .karta{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14)}
-.prywatnosc .karta h3{color:#fff}
-.prywatnosc .karta p{color:#bccddf}
+.prywatnosc{background:var(--granat2);color:#fff;position:relative;overflow:hidden}
+.prywatnosc::after{content:"";position:absolute;width:700px;height:700px;
+  left:-240px;bottom:-380px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(58,163,224,.20),transparent 70%)}
+.prywatnosc .in{position:relative}
+.prywatnosc h2,.prywatnosc h3{color:#fff}
+.prywatnosc .naglowek p{color:#b9cadd}
+.prywatnosc .karta{background:rgba(255,255,255,.055);
+  border-color:rgba(255,255,255,.13);box-shadow:none}
+.prywatnosc .karta:hover{transform:none;background:rgba(255,255,255,.08)}
+.prywatnosc .karta p{margin:0;color:#b9cadd;font-size:15.5px}
+.prywatnosc .ikona{background:rgba(58,163,224,.18);color:#7cc6f0}
 
 /* Start w 3 krokach — numeracja niesie kolejność, więc jest uzasadniona */
-.kroki{counter-reset:k;display:grid;gap:18px;margin-top:32px;grid-template-columns:1fr}
-@media (min-width:760px){.kroki{grid-template-columns:repeat(3,1fr)}}
-.krok{background:var(--papier);border:1px solid var(--linia);border-radius:12px;padding:22px}
-.krok::before{counter-increment:k;content:counter(k);display:flex;align-items:center;
-  justify-content:center;width:32px;height:32px;border-radius:9px;
-  background:var(--niebieski);color:#fff;font:700 15px/1 ui-monospace,Menlo,monospace}
-.krok h3{margin:14px 0 8px;font-size:17px}
-.krok p{margin:0;color:var(--tekst2);font-size:15px}
+.kroki{counter-reset:k;display:grid;gap:20px;margin-top:40px;grid-template-columns:1fr}
+@media (min-width:780px){.kroki{grid-template-columns:repeat(3,1fr)}}
+.krok{position:relative;background:var(--papier);border:1px solid var(--linia);
+  border-radius:var(--r);padding:26px;box-shadow:var(--cien)}
+.krok::before{counter-increment:k;content:counter(k,decimal-leading-zero);
+  font:700 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;
+  color:var(--niebieski)}
+.krok h3{margin:12px 0 9px;font-size:18px;font-weight:680}
+.krok p{margin:0;color:var(--tekst2);font-size:15.5px}
 
-footer{background:var(--granat);color:#9db1c6;padding:44px 0 52px;font-size:14px}
-footer .in{display:grid;gap:22px}
-@media (min-width:760px){footer .in{grid-template-columns:1.4fr 1fr 1fr}}
-footer h4{margin:0 0 10px;color:#fff;font-size:14px;letter-spacing:.02em}
-footer a{color:#c9d8e8;text-decoration:none;display:block;margin-bottom:7px}
+footer{background:var(--granat);color:#93a8bd;padding:56px 0 60px;font-size:14.5px}
+footer .in{display:grid;gap:28px}
+@media (min-width:780px){footer .in{grid-template-columns:1.5fr 1fr 1fr}}
+footer h4{margin:0 0 12px;color:#fff;font-family:Sora;font-size:14px;
+  font-weight:650;letter-spacing:.01em}
+footer p{margin:0}
+footer a{color:#c2d3e5;text-decoration:none;display:block;margin-bottom:8px}
 footer a:hover{color:#fff;text-decoration:underline}
-footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
-  padding-top:18px;grid-column:1/-1;color:#7e93a8;font-size:13px}
+.drobne{border-top:1px solid rgba(255,255,255,.11);margin-top:6px;padding-top:22px;
+  grid-column:1/-1;color:#75899d;font-size:13px;max-width:88ch}
+
+/* Wejście sekcji przy przewijaniu. UWAGA: ukrywamy TYLKO gdy działa JavaScript
+   (klasa `js` na <html>) — inaczej przy zablokowanym skrypcie treść zostałaby
+   niewidoczna na zawsze. Animacja to ozdoba, nie warunek czytania strony. */
+.js .odslon{opacity:0;transform:translateY(14px);
+  transition:opacity .6s ease,transform .6s ease}
+.js .odslon.widac{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+  .js .odslon{opacity:1;transform:none}
+  .btn:hover,.karta:hover{transform:none}}
 </style>
 </head>
 <body>
+<script>
+// Włącza animacje wejścia dopiero, gdy skrypty działają — patrz komentarz
+// przy `.odslon` w stylach. Musi być na początku <body>, żeby nie mrugnęło.
+document.documentElement.classList.add('js');
+</script>
 
-<header>
+<div class="pasek">
   <div class="in">
-    <nav>
-      <span class="marka">
-        <svg viewBox="0 0 462 331" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="matrix(1,0,0,1,-663.574463,-1632.571019)"><g transform="matrix(1.787215,0,0,1.787215,-1527.551596,-574.639979)"><path d="M1397.571,1338.345L1398.017,1382.708C1398.046,1385.629 1396.193,1388.236 1393.426,1389.169C1390.658,1390.101 1387.605,1389.147 1385.861,1386.804L1349.142,1337.482C1341.616,1327.373 1329.756,1321.417 1317.154,1321.417L1298.08,1321.417C1287.238,1321.417 1278.448,1330.206 1278.448,1341.049L1278.448,1412.364C1278.448,1414.418 1277.481,1416.352 1275.838,1417.584C1274.194,1418.816 1272.066,1419.202 1270.095,1418.626C1244.641,1411.286 1226,1387.803 1226,1360C1226,1330.291 1247.285,1305.514 1275.423,1300.099C1279.368,1263.519 1310.38,1235 1348,1235C1381.4,1235 1409.591,1257.479 1418.256,1288.121C1454.912,1290.214 1484,1319.155 1484,1354.5C1484,1382.711 1465.469,1406.842 1439.35,1416.498C1437.341,1417.223 1435.103,1416.909 1433.372,1415.659C1431.64,1414.41 1430.637,1412.385 1430.691,1410.25C1431.042,1394.109 1431.31,1359.959 1431.447,1339.019L1435.829,1343.4C1439.408,1346.98 1445.211,1346.98 1448.791,1343.4L1451.524,1340.667C1453.069,1339.122 1453.938,1337.025 1453.938,1334.839C1453.938,1332.653 1453.069,1330.557 1451.524,1329.011L1422.896,1300.383C1417.859,1295.346 1409.692,1295.346 1404.656,1300.383L1377.011,1328.028C1373.867,1331.172 1373.867,1336.269 1377.011,1339.412L1381.107,1343.509C1384.228,1346.629 1389.286,1346.629 1392.407,1343.509L1397.571,1338.345ZM1356.995,1409.276C1358.694,1411.158 1359.124,1413.864 1358.094,1416.181C1357.064,1418.498 1354.767,1419.991 1352.231,1419.991C1341.77,1420 1327.518,1420 1319.228,1420C1315.493,1420 1312.454,1416.992 1312.417,1413.257L1311.968,1368.597C1311.941,1365.865 1313.673,1363.425 1316.261,1362.549C1318.849,1361.673 1321.707,1362.559 1323.345,1364.746C1323.345,1364.746 1344.753,1393.195 1356.995,1409.276Z" style="fill:currentColor"/></g></g></svg>
-        NoviCloud GO
-      </span>
-      <span class="linki">
-        <a href="#funkcje">Funkcje</a>
-        <a href="#start">Jak zacząć</a>
-        <a href="instrukcja/">Instrukcja</a>
-      </span>
+    <span class="marka">
+      <svg viewBox="0 0 462 331" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="matrix(1,0,0,1,-663.574463,-1632.571019)"><g transform="matrix(1.787215,0,0,1.787215,-1527.551596,-574.639979)"><path d="M1397.571,1338.345L1398.017,1382.708C1398.046,1385.629 1396.193,1388.236 1393.426,1389.169C1390.658,1390.101 1387.605,1389.147 1385.861,1386.804L1349.142,1337.482C1341.616,1327.373 1329.756,1321.417 1317.154,1321.417L1298.08,1321.417C1287.238,1321.417 1278.448,1330.206 1278.448,1341.049L1278.448,1412.364C1278.448,1414.418 1277.481,1416.352 1275.838,1417.584C1274.194,1418.816 1272.066,1419.202 1270.095,1418.626C1244.641,1411.286 1226,1387.803 1226,1360C1226,1330.291 1247.285,1305.514 1275.423,1300.099C1279.368,1263.519 1310.38,1235 1348,1235C1381.4,1235 1409.591,1257.479 1418.256,1288.121C1454.912,1290.214 1484,1319.155 1484,1354.5C1484,1382.711 1465.469,1406.842 1439.35,1416.498C1437.341,1417.223 1435.103,1416.909 1433.372,1415.659C1431.64,1414.41 1430.637,1412.385 1430.691,1410.25C1431.042,1394.109 1431.31,1359.959 1431.447,1339.019L1435.829,1343.4C1439.408,1346.98 1445.211,1346.98 1448.791,1343.4L1451.524,1340.667C1453.069,1339.122 1453.938,1337.025 1453.938,1334.839C1453.938,1332.653 1453.069,1330.557 1451.524,1329.011L1422.896,1300.383C1417.859,1295.346 1409.692,1295.346 1404.656,1300.383L1377.011,1328.028C1373.867,1331.172 1373.867,1336.269 1377.011,1339.412L1381.107,1343.509C1384.228,1346.629 1389.286,1346.629 1392.407,1343.509L1397.571,1338.345ZM1356.995,1409.276C1358.694,1411.158 1359.124,1413.864 1358.094,1416.181C1357.064,1418.498 1354.767,1419.991 1352.231,1419.991C1341.77,1420 1327.518,1420 1319.228,1420C1315.493,1420 1312.454,1416.992 1312.417,1413.257L1311.968,1368.597C1311.941,1365.865 1313.673,1363.425 1316.261,1362.549C1318.849,1361.673 1321.707,1362.559 1323.345,1364.746C1323.345,1364.746 1344.753,1393.195 1356.995,1409.276Z" style="fill:currentColor"/></g></g></svg>
+      NoviCloud GO
+    </span>
+    <nav class="nawig">
+      <a href="#funkcje">Funkcje</a>
+      <a href="#dzialanie">W działaniu</a>
+      <a href="#start">Jak zacząć</a>
+      <a class="mocny" href="instrukcja/">Instrukcja</a>
     </nav>
   </div>
+</div>
 
-  <div class="hero">
-    <div class="in">
-      <div>
-        <span class="etyk">Aplikacja mobilna do systemu NoviCloud</span>
-        <h1>Twój sklep w telefonie.<br><em>Bez włączania komputera.</em></h1>
-        <p class="lead">Sprzedaż, raporty, dokumenty i towary z Twojego konta
-          NoviCloud — na telefonie i tablecie. Dane pobierają się w tle, więc
-          raporty otwierasz nawet bez internetu.</p>
-        <div class="cta">
-          <a class="btn btn-main" href="instrukcja/">Zobacz instrukcję</a>
-          <a class="btn btn-alt" href="#funkcje">Co potrafi</a>
-        </div>
-        <p class="sklepy">Wkrótce w Google Play i App Store.
-          Wymaga konta NoviCloud z modułem API.</p>
+<div class="hero">
+  <div class="in">
+    <div>
+      <span class="etyk">Aplikacja mobilna do systemu NoviCloud</span>
+      <h1>Twój sklep w telefonie.<br><em>Bez włączania komputera.</em></h1>
+      <p class="lead">Sprzedaż, raporty, dokumenty i towary z Twojego konta
+        NoviCloud — na telefonie i tablecie. Dane pobierają się w tle, więc
+        raporty otwierasz nawet bez internetu.</p>
+      <div class="przyciski">
+        <a class="btn btn-main" href="instrukcja/">Zobacz instrukcję</a>
+        <a class="btn btn-alt" href="#funkcje">Co potrafi</a>
       </div>
-      <img class="telefon" src="img/07-pulpit.png" width="540" height="1144"
-           alt="Pulpit aplikacji NoviCloud GO: sprzedaż dnia, kafelki szybkich akcji i wykres">
+      <p class="pod-przyciskami">Wkrótce w Google Play i App Store ·
+        wymaga konta NoviCloud z modułem API</p>
+    </div>
+    <div class="hero-fig">
+      <div class="rama">
+        <img src="img/07-pulpit.png" width="540" height="1144"
+             alt="Pulpit aplikacji: sprzedaż dnia, kafelki szybkich akcji i wykres">
+      </div>
     </div>
   </div>
-</header>
+  <div class="fakty in" style="max-width:var(--max)">
+    <div class="fakt"><b>Offline</b><span>raporty i dokumenty bez sieci</span></div>
+    <div class="fakt"><b>Android i iOS</b><span>telefon oraz tablet</span></div>
+    <div class="fakt"><b>Bez reklam</b><span>zero śledzenia i analityki</span></div>
+    <div class="fakt"><b>Doradca</b><span>prognozy liczone na urządzeniu</span></div>
+  </div>
+</div>
 
 <section id="funkcje">
   <div class="in">
-    <span class="etyk">Funkcje</span>
-    <h2>Wszystko, po co dziś logujesz się do komputera</h2>
-    <p class="wstep">Aplikacja pokazuje dane z Twojego NoviCloud — te same liczby,
-      tylko szybciej dostępne i policzone pod telefon.</p>
-
+    <div class="naglowek odslon">
+      <span class="etyk">Funkcje</span>
+      <h2>Wszystko, po co dziś logujesz się do komputera</h2>
+      <p>Aplikacja pokazuje dane z Twojego NoviCloud — te same liczby,
+        tylko szybciej dostępne i policzone pod telefon.</p>
+    </div>
     <div class="karty">
-      <div class="karta">
-        <span class="etyk">Sprzedaż</span>
+      <div class="karta odslon">
+        <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20h18M6 16V9M11 16V5M16 16v-4M21 16v-7"/></svg></div>
         <h3>Pulpit i raporty</h3>
         <ul>
-          <li>Obrót za dziś, tydzień, miesiąc lub własny zakres</li>
+          <li>Obrót za dziś, tydzień, miesiąc lub własny zakres dat</li>
           <li>Raport sprzedaży wg towaru, kasy, kasjera i stawki VAT</li>
-          <li>Raport kasjerski ze zmianami i utargiem</li>
+          <li>Raport kasjerski ze zmianami, utargiem i formami płatności</li>
           <li>Obrót gotówki, zwroty, rabaty, stany magazynowe</li>
         </ul>
       </div>
-      <div class="karta">
-        <span class="etyk">Towary</span>
-        <h3>Katalog i skaner</h3>
+      <div class="karta odslon">
+        <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7V5h3M20 7V5h-3M4 17v2h3M20 17v2h-3M7 8v8M11 8v8M15 8v8"/></svg></div>
+        <h3>Towary i skaner</h3>
         <ul>
-          <li>Cena i stan towaru po zeskanowaniu kodu</li>
+          <li>Cena i stan towaru zaraz po zeskanowaniu kodu</li>
           <li>Dodawanie i edycja towarów (przy subskrypcji „API W”)</li>
-          <li>Etykiety cenowe do wydruku</li>
-          <li>Plik magazynowy — spis z natury skanerem, eksport CSV/XLSX/PDF</li>
+          <li>Etykiety cenowe gotowe do wydruku</li>
+          <li>Spis z natury skanerem, eksport CSV / XLSX / PDF</li>
         </ul>
       </div>
-      <div class="karta">
-        <span class="etyk">Dokumenty</span>
-        <h3>Paragony i faktury</h3>
+      <div class="karta odslon">
+        <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5"/></svg></div>
+        <h3>Dokumenty i klienci</h3>
         <ul>
-          <li>Podgląd pozycji, rozbicia VAT i form płatności</li>
-          <li>Szukanie po numerze, typie i kwocie</li>
+          <li>Paragony, faktury i korekty z pozycjami i rozbiciem VAT</li>
+          <li>Szukanie po numerze, typie albo kwocie</li>
           <li>Eksport kopii dokumentu do PDF</li>
           <li>Karty lojalnościowe klientów</li>
         </ul>
@@ -208,18 +296,22 @@ footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
   </div>
 </section>
 
-<section class="mgla">
+<section class="mgla" id="dzialanie">
   <div class="in">
-    <span class="etyk">Zobacz w działaniu</span>
-    <h2>Cztery ekrany, które oszczędzają najwięcej czasu</h2>
+    <div class="naglowek odslon">
+      <span class="etyk">Zobacz w działaniu</span>
+      <h2>Cztery ekrany, które oszczędzają najwięcej czasu</h2>
+      <p>Wszystkie zrzuty pochodzą z prawdziwej aplikacji na koncie
+        demonstracyjnym.</p>
+    </div>
 
-    <div class="pokaz">
-      <img src="img/12-raport-dnia.png" width="540" height="1144"
-           alt="Raport dnia: sprzedaż, porównanie z wczoraj, kasy i kasjerzy">
+    <div class="pokaz odslon">
+      <div class="rama"><img src="img/12-raport-dnia.png" width="540" height="1144"
+        alt="Raport dnia: sprzedaż, porównanie z wczoraj, podział na kasy i kasjerów"></div>
       <div class="txt">
         <h3>Raport dnia</h3>
-        <p>Całe „co się dziś stało” na jednym ekranie — bez składania liczb
-          z czterech miejsc.</p>
+        <p>Całe „co się dziś stało” w jednym miejscu — bez składania liczb
+          z czterech ekranów.</p>
         <ul>
           <li>Sprzedaż i średni paragon z porównaniem do wczoraj oraz do tego
             samego dnia tygodnia</li>
@@ -229,23 +321,23 @@ footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
       </div>
     </div>
 
-    <div class="pokaz odwrot">
-      <img src="img/20-skaner.png" width="540" height="1144"
-           alt="Skaner kodów pokazuje nazwę, cenę i stan towaru">
+    <div class="pokaz odwrot odslon">
+      <div class="rama"><img src="img/20-skaner.png" width="540" height="1144"
+        alt="Skaner kodów pokazuje nazwę, cenę detaliczną i stan towaru"></div>
       <div class="txt">
         <h3>Skaner przy półce</h3>
         <p>Klient pyta o cenę, a Ty nie musisz wracać do kasy.</p>
         <ul>
-          <li>Po zeskanowaniu kodu widzisz nazwę, cenę detaliczną, stan i VAT</li>
-          <li>Tryb ciągły — sprawdzasz kolejne towary jednym ruchem</li>
-          <li>Po skanie możesz podejrzeć skład i alergeny (Open Food Facts)</li>
+          <li>Po zeskanowaniu kodu widzisz nazwę, cenę, stan i stawkę VAT</li>
+          <li>Tryb ciągły — kolejne towary sprawdzasz jednym ruchem</li>
+          <li>Dla produktów spożywczych podejrzysz skład i alergeny</li>
         </ul>
       </div>
     </div>
 
-    <div class="pokaz">
-      <img src="img/15-raport-kasjerski.png" width="540" height="1144"
-           alt="Raport kasjerski: zmiany, czas pracy, utarg i formy płatności">
+    <div class="pokaz odslon">
+      <div class="rama"><img src="img/15-raport-kasjerski.png" width="540" height="1144"
+        alt="Raport kasjerski: zmiany, czas pracy, utarg i formy płatności"></div>
       <div class="txt">
         <h3>Kontrola zmian</h3>
         <p>Widzisz, kto pracował, ile utargu przyjął i co się działo z gotówką.</p>
@@ -257,9 +349,9 @@ footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
       </div>
     </div>
 
-    <div class="pokaz odwrot">
-      <img src="img/21-doradca-ai.png" width="540" height="1144"
-           alt="Doradca: prognoza sprzedaży, alerty i analiza ABC">
+    <div class="pokaz odwrot odslon">
+      <div class="rama"><img src="img/21-doradca-ai.png" width="540" height="1144"
+        alt="Doradca: prognoza sprzedaży, alerty i analiza ABC"></div>
       <div class="txt">
         <h3>Doradca liczony na telefonie</h3>
         <p>Podpowiedzi powstają na urządzeniu — bez opłat i bez wysyłania
@@ -278,22 +370,27 @@ footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
 
 <section class="prywatnosc">
   <div class="in">
-    <span class="etyk">Prywatność</span>
-    <h2>Twoje dane zostają u Ciebie</h2>
-    <p class="wstep">Aplikacja nie ma własnego serwera. Łączy się wprost
-      z Twoim NoviCloud, a to, co pobierze, trzyma w telefonie.</p>
+    <div class="naglowek odslon">
+      <span class="etyk">Prywatność</span>
+      <h2>Twoje dane zostają u Ciebie</h2>
+      <p>Aplikacja nie ma własnego serwera. Łączy się wprost z Twoim NoviCloud,
+        a to, co pobierze, trzyma w telefonie.</p>
+    </div>
     <div class="karty">
-      <div class="karta">
+      <div class="karta odslon">
+        <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18M10.6 5.1A9 9 0 0121 12c0 1.9-.6 3.6-1.6 5M6.3 6.3A9 9 0 003 12a9 9 0 003 6.7"/><circle cx="12" cy="12" r="2.5"/></svg></div>
         <h3>Bez reklam i śledzenia</h3>
         <p>Zero reklam, zero analityki, brak identyfikatorów reklamowych
           i brak dostępu do lokalizacji urządzenia.</p>
       </div>
-      <div class="karta">
+      <div class="karta odslon">
+        <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div>
         <h3>Hasła tylko na urządzeniu</h3>
         <p>Dane logowania trzymane są w bezpiecznym magazynie systemu
           i wysyłane wyłącznie do NoviCloud po HTTPS.</p>
       </div>
-      <div class="karta">
+      <div class="karta odslon">
+        <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9zM18 15l.9 2.1 2.1.9-2.1.9L18 21l-.9-2.1-2.1-.9 2.1-.9z"/></svg></div>
         <h3>AI dobrowolne</h3>
         <p>Funkcje chmurowego AI włączasz sam. Nigdy nie trafiają do nich dane
           klientów, kontrahentów ani nazwiska kasjerów.</p>
@@ -304,28 +401,30 @@ footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
 
 <section id="start">
   <div class="in">
-    <span class="etyk">Jak zacząć</span>
-    <h2>Trzy kroki do pierwszego raportu</h2>
-    <p class="wstep">Potrzebujesz konta NoviCloud z modułem API. Hasło API to
-      osobne hasło do połączeń — nie to, którym logujesz się w przeglądarce.</p>
+    <div class="naglowek odslon">
+      <span class="etyk">Jak zacząć</span>
+      <h2>Trzy kroki do pierwszego raportu</h2>
+      <p>Potrzebujesz konta NoviCloud z modułem API. Hasło API to osobne hasło
+        do połączeń — nie to, którym logujesz się w przeglądarce.</p>
+    </div>
     <div class="kroki">
-      <div class="krok">
+      <div class="krok odslon">
         <h3>Włącz moduł API</h3>
         <p>W NoviCloud: Administracja → NoviCloud → Subskrypcja. Jeśli moduł API
           jest wyłączony, aktywuj go.</p>
       </div>
-      <div class="krok">
+      <div class="krok odslon">
         <h3>Ustaw hasło API</h3>
         <p>Administracja → Dane firmy → Baza danych → „Ustal hasło dostępu”.
-          To hasło posłuży tylko aplikacji.</p>
+          To hasło posłuży wyłącznie aplikacji.</p>
       </div>
-      <div class="krok">
+      <div class="krok odslon">
         <h3>Zaloguj się w aplikacji</h3>
         <p>Podaj nazwę swojej bazy danych i hasło API. Pierwsza synchronizacja
           pobierze towary, dokumenty i kasy.</p>
       </div>
     </div>
-    <div class="cta">
+    <div class="przyciski">
       <a class="btn btn-main" href="instrukcja/">Pełna instrukcja ze zrzutami</a>
     </div>
   </div>
@@ -335,7 +434,7 @@ footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
   <div class="in">
     <div>
       <h4>NoviCloud GO</h4>
-      <p style="margin:0;max-width:40ch">Aplikacja mobilna do systemu
+      <p style="max-width:42ch">Aplikacja mobilna do systemu
         kasowo-sprzedażowego NoviCloud (Insoft / Novitus).</p>
     </div>
     <div>
@@ -348,12 +447,31 @@ footer .drobne{border-top:1px solid rgba(255,255,255,.12);margin-top:8px;
       <a href="mailto:next@novitus.pl">next@novitus.pl</a>
     </div>
     <p class="drobne">Strona tymczasowa, przygotowana na potrzeby prezentacji
-      aplikacji — docelowo trafi na domenę firmową. Zrzuty ekranu pochodzą
-      z konta demonstracyjnego, więc kwoty i nazwy towarów są przykładowe.
-      Dane i wyliczenia prezentowane w aplikacji mają charakter pomocniczy;
-      w razie wątpliwości należy je weryfikować w NoviCloud.</p>
+      aplikacji — docelowo treść trafi na domenę firmową. Zrzuty ekranu pochodzą
+      z konta demonstracyjnego, więc kwoty i nazwy towarów są przykładowe. Dane
+      i wyliczenia prezentowane w aplikacji mają charakter pomocniczy; w razie
+      wątpliwości należy je weryfikować w NoviCloud.</p>
   </div>
 </footer>
+
+<script>
+// Delikatne wejście sekcji przy przewijaniu. Gdy użytkownik prosi o mniej
+// ruchu albo przeglądarka nie zna IntersectionObserver — pokazujemy wszystko od razu.
+(function(){
+  var el = document.querySelectorAll('.odslon');
+  var redukcja = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (redukcja || !('IntersectionObserver' in window)) {
+    el.forEach(function(e){ e.classList.add('widac'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(wpisy){
+    wpisy.forEach(function(w){
+      if (w.isIntersecting) { w.target.classList.add('widac'); obs.unobserve(w.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  el.forEach(function(e){ obs.observe(e); });
+})();
+</script>
 
 </body>
 </html>
