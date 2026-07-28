@@ -25,10 +25,13 @@ Adres: **https://pixelpetrol.github.io/novicloudgo/**
 2. Skopiuj ją tutaj i podmień zrzuty użyte na stronie głównej:
    ```bash
    cd ..                      # katalog novilink/
-   cp -R docs/instrukcja/index.html docs/instrukcja/zrzuty site/instrukcja/
+   cp docs/instrukcja/index.html site/instrukcja/
+   cp docs/instrukcja/zrzuty/*.webp site/instrukcja/zrzuty/
    for f in 07-pulpit 12-raport-dnia 15-raport-kasjerski 20-skaner 21-doradca-ai; do
-     cp docs/instrukcja/zrzuty/$f.png site/img/
+     cp docs/instrukcja/zrzuty/$f.webp site/img/
    done
+   # UWAGA: kopiujemy TYLKO .webp — źródłowe PNG (~11 MB) nie wchodzą
+   # do publicznego repo strony (strona odwołuje się wyłącznie do .webp).
    ```
 3. W `site/`: `git add -A && git commit -m "…" && git push` — GitHub Pages
    przebuduje stronę w ciągu ~1 minuty.
