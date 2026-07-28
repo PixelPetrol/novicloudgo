@@ -144,8 +144,12 @@ section{padding:74px 0}
 .naglowek p{margin:0;color:var(--tekst2);font-size:17px}
 
 .karty{display:grid;gap:20px;margin-top:40px;grid-template-columns:1fr}
-@media (min-width:700px){.karty{grid-template-columns:1fr 1fr}}
-@media (min-width:1000px){.karty{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:700px){.karty{grid-template-columns:1fr 1fr}
+  /* 3 karty w 2 kolumnach: ostatnia rozciąga się na całą szerokość,
+     inaczej zostawiała pustą komórkę wielkości karty (audyt B9) */
+  .karty>.karta:last-child:nth-child(odd){grid-column:1/-1}}
+@media (min-width:1000px){.karty{grid-template-columns:repeat(3,1fr)}
+  .karty>.karta:last-child:nth-child(odd){grid-column:auto}}
 .karta{background:var(--papier);border:1px solid var(--linia);border-radius:var(--r);
   padding:26px;box-shadow:var(--cien);transition:transform .2s,box-shadow .2s}
 .karta:hover{transform:translateY(-3px);
@@ -199,9 +203,13 @@ section{padding:74px 0}
 .krok p{margin:0;color:var(--tekst2);font-size:15.5px}
 .wymagania{margin-top:28px;background:var(--mgla);border:1px solid var(--linia);
   border-radius:var(--r);padding:22px 26px}
-.wymagania h3{font-size:16px;font-weight:680;margin:0 0 9px}
+.wymagania h3{font-size:18px;font-weight:680;margin:0 0 9px}
 .wymagania ul{margin:0;padding-left:19px;color:var(--tekst2);font-size:15.5px}
 .wymagania li{margin-bottom:6px}
+/* Dwie kolumny na szerokim ekranie — jednokolumnowa lista zostawiała
+   ~500 px pustki obok krótkich punktów (audyt B25) */
+@media (min-width:780px){.wymagania ul{columns:2;column-gap:44px}
+  .wymagania li{break-inside:avoid}}
 .wymagania p{margin:12px 0 0;color:var(--tekst2);font-size:15.5px}
 
 footer{background:var(--granat);color:#93a8bd;padding:56px 0 60px;font-size:14.5px}
@@ -210,11 +218,14 @@ footer .in{display:grid;gap:28px}
 footer h4{margin:0 0 12px;color:#fff;font-family:Sora;font-size:14px;
   font-weight:650;letter-spacing:.01em}
 footer p{margin:0}
-footer a{color:#c2d3e5;text-decoration:none;display:block;padding:9px 0;
+footer a{color:#c2d3e5;text-decoration:none;display:block;padding:10px 0;
   margin-bottom:2px}
 footer a:hover{color:#fff;text-decoration:underline}
+/* Kreska na PEŁNEJ szerokości stopki, limit szerokości tylko na tekst —
+   wcześniej max-width:88ch ucinał linię na 61% szerokości (audyt B10) */
 .drobne{border-top:1px solid rgba(255,255,255,.11);margin-top:6px;padding-top:22px;
-  grid-column:1/-1;color:#75899d;font-size:13px;max-width:88ch}
+  grid-column:1/-1;color:#75899d;font-size:13px}
+.drobne span{display:block;max-width:88ch}
 
 /* Wejście sekcji przy przewijaniu. UWAGA: ukrywamy TYLKO gdy działa JavaScript
    (klasa `js` na <html>) — inaczej przy zablokowanym skrypcie treść zostałaby
@@ -227,6 +238,24 @@ footer a:hover{color:#fff;text-decoration:underline}
   *{transition:none!important;animation:none!important}
   .js .odslon{opacity:1;transform:none}
   .btn:hover,.karta:hover{transform:none}}
+
+/* DRUK: przeglądarki domyślnie nie drukują teł, więc ciemne pasy wychodziły
+   jasnym tekstem na białym papierze, a gradientowy wiersz H1
+   (background-clip:text + color:transparent) NIE DRUKOWAŁ SIĘ WCALE
+   (audyt B8). Tu wracamy do czerni na bieli. */
+@media print{
+  .pasek,.pomin,.przyciski,.hero::before,.hero::after,.prywatnosc::after{display:none}
+  .hero,.prywatnosc,footer,.fakt,.fakty{background:#fff;color:#111;border-color:#ccc}
+  .hero h1 em{background:none;-webkit-background-clip:border-box;
+    background-clip:border-box;color:#111}
+  .hero .lead,.fakt span,.pod-przyciskami,.prywatnosc .naglowek p,
+  .prywatnosc .karta p,.drobne,footer,footer p{color:#333}
+  .fakt b,.prywatnosc h2,.prywatnosc h3,footer h4,footer a{color:#111}
+  .hero .etyk,.prywatnosc .etyk{color:#444}
+  .karta,.krok,.wymagania,.rama{box-shadow:none;break-inside:avoid}
+  .js .odslon{opacity:1;transform:none}
+  a{color:#111;text-decoration:underline}
+  main{padding:0}}
 </style>
 </head>
 <body>
@@ -505,10 +534,10 @@ document.documentElement.classList.add('js');
       <h4>Kontakt</h4>
       <a href="mailto:next@novitus.pl">next@novitus.pl</a>
     </div>
-    <p class="drobne">Zrzuty ekranu pochodzą z konta demonstracyjnego, więc
+    <p class="drobne"><span>Zrzuty ekranu pochodzą z konta demonstracyjnego, więc
       kwoty i nazwy towarów są przykładowe. Dane i wyliczenia prezentowane
       w aplikacji mają charakter pomocniczy; w razie wątpliwości należy je
-      weryfikować w NoviCloud.</p>
+      weryfikować w NoviCloud.</span></p>
   </div>
 </footer>
 
