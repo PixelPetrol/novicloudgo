@@ -10,6 +10,18 @@
 <meta property="og:title" content="NoviCloud GO — Twój NoviCloud w kieszeni">
 <meta property="og:description" content="Sprzedaż, raporty, dokumenty i towary z systemu NoviCloud — na telefonie i tablecie. Wieczorne podsumowanie dnia i alert cichej kasy prosto w powiadomieniu.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://pixelpetrol.github.io/novicloudgo/">
+<meta property="og:site_name" content="NoviCloud GO">
+<meta property="og:locale" content="pl_PL">
+<!-- Bez og:image link wklejony w mailu czy na komunikatorze pokazywał się
+     jako szara ramka bez podglądu. Obrazek generuje `zrob_og.py`. -->
+<meta property="og:image" content="https://pixelpetrol.github.io/novicloudgo/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="NoviCloud GO — aplikacja mobilna do systemu NoviCloud">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://pixelpetrol.github.io/novicloudgo/">
+<link rel="apple-touch-icon" href="img/ikona-180.png">
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/sora-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -39,21 +51,27 @@
   --niebieski:#237cfd; --lazur:#3aa3e0; --pomarancz:#f08c00;
   --mgla:#eff4fa; --blekit:#e4f0fa; --papier:#fff;
   --tekst:#111c2a; --tekst2:#586b7f; --linia:rgba(17,28,42,.11);
-  --max:1140px; --r:16px;
+  --max:1140px;
+  /* Promienie i rozmiary tekstu jako tokeny. Wcześniej arkusz miał 6 różnych
+     promieni i 10 rozmiarów tekstu w krokach po 0,5 px (13/13,5/14/14,5/15,5/
+     16,5/17/18/18,5/19) — czyli żadnej skali. Teraz 5 stopni i 3 promienie
+     (30 px i 22 px zostają tylko dla „obudowy telefonu”, bo to fizyczny kształt). */
+  --r-s:10px; --r:16px; --r-l:22px;
+  --f-xs:13px; --f-s:14px; --f-m:15.5px; --f-l:16.5px; --f-xl:18.5px;
   --cien:0 1px 2px rgba(11,19,32,.06), 0 12px 28px -12px rgba(11,19,32,.18);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:88px}
 body{margin:0;background:var(--papier);color:var(--tekst);
-  font:400 16.5px/1.68 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font:400 var(--f-l)/1.68 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased;letter-spacing:-.005em}
 img{max-width:100%;height:auto;display:block}
 a{color:#1668ad}/* AA na bieli i mgle; lazur (2,5:1 na jasnym) tylko na ciemnych pasach */
 /* Fokus jako dwa pierścienie: ciemna linia + biała otoczka — widoczny i na
    pomarańczowym przycisku, i na ciemnym granacie (pomarańcz na pomarańczu
    miał kontrast 1:1). */
-a:focus-visible,button:focus-visible{outline:2px solid var(--tekst);
-  outline-offset:3px;border-radius:8px;box-shadow:0 0 0 5px rgba(255,255,255,.95)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--tekst);
+  outline-offset:3px;border-radius:var(--r-s);box-shadow:0 0 0 5px rgba(255,255,255,.95)}
 h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
   text-wrap:balance;margin:0}
 .in{max-width:var(--max);margin:0 auto;padding:0 24px}
@@ -64,7 +82,7 @@ h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
 .pomin:focus{left:0}
 /* Nadtytuły sekcji: na jasnym tle ciemniejszy błękit (4,5:1+); jasny lazur
    zostaje tylko na ciemnych pasach, gdzie ma kontrast 6+. */
-.etyk{display:inline-block;font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+.etyk{display:inline-block;font:650 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
   letter-spacing:.12em;text-transform:uppercase;color:#1668ad}
 .hero .etyk,.prywatnosc .etyk{color:var(--lazur)}
 
@@ -73,15 +91,27 @@ h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
   backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
 .pasek .in{display:flex;align-items:center;gap:16px;padding:14px 24px}
 .marka{display:flex;align-items:center;gap:11px;color:#fff;font-family:Sora;
-  font-weight:700;font-size:16.5px;letter-spacing:-.02em}
+  font-weight:700;font-size:var(--f-l);letter-spacing:-.02em}
 .marka svg{width:32px;height:23px;color:var(--niebieski)}
 .nawig{margin-left:auto;display:flex;align-items:center;gap:6px}
-.nawig a{color:#b9cadd;text-decoration:none;font-size:14.5px;font-weight:500;
-  padding:10px 12px;border-radius:8px;transition:color .18s,background .18s}
+.nawig a{color:#b9cadd;text-decoration:none;font-size:var(--f-m);font-weight:500;
+  padding:11px 12px;border-radius:var(--r-s);transition:color .18s,background .18s}
 .nawig a:hover{color:#fff;background:rgba(255,255,255,.07)}
 .nawig a.mocny{background:var(--pomarancz);color:#241503;font-weight:650}
 .nawig a.mocny:hover{background:#ffa11c}
-@media (max-width:640px){.nawig a:not(.mocny){display:none}}
+/* Do 640 px linki NIE znikają. Dokument ma ~11 500 px, czyli ponad 14 ekranów
+   telefonu — bez nawigacji nie dało się po nim skakać (wcześniej `display:none`
+   zostawiał jeden przycisk). Schodzą do drugiego, przewijanego rzędu paska,
+   z przyciskiem instrukcji na początku i celami dotykowymi ≥44 px. */
+@media (max-width:640px){
+  .pasek .in{flex-wrap:wrap;padding:9px 16px 0}
+  .nawig{margin-left:0;width:100%;margin-top:7px;gap:2px;
+    overflow-x:auto;scrollbar-width:none;
+    border-top:1px solid rgba(255,255,255,.08)}
+  .nawig::-webkit-scrollbar{display:none}
+  .nawig a{flex:none;white-space:nowrap;font-size:var(--f-s);padding:13px 10px}
+  .nawig a.mocny{order:-1}
+  html{scroll-padding-top:104px}}
 
 /* ── Hero ──────────────────────────────────────────────────────────── */
 .hero{position:relative;background:var(--granat);color:#fff;overflow:hidden;
@@ -100,13 +130,13 @@ h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
   align-items:end;padding:84px 24px 0;gap:30px}}
 .hero h1{margin:16px 0 18px;font-size:clamp(33px,5.6vw,58px);line-height:1.03;
   font-weight:750}
-.hero h1 em{font-style:normal;
+.hero h1 em{font-style:normal;display:block;
   background:linear-gradient(96deg,var(--niebieski),#63b8ff);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .lead{margin:0;color:#c0d0e2;font-size:clamp(16.5px,1.9vw,19.5px);max-width:50ch}
 .przyciski{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0}
 .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 24px;
-  border-radius:11px;font-weight:650;text-decoration:none;font-size:15.5px;
+  border-radius:var(--r-s);font-weight:650;text-decoration:none;font-size:var(--f-m);
   font-family:Manrope;transition:transform .18s,background .18s,box-shadow .18s}
 .btn:hover{transform:translateY(-1px)}
 .btn-main{background:var(--pomarancz);color:#241503;
@@ -114,7 +144,27 @@ h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
 .btn-main:hover{background:#ffa11c}
 .btn-alt{border:1px solid rgba(255,255,255,.26);color:#fff}
 .btn-alt:hover{background:rgba(255,255,255,.09)}
-.pod-przyciskami{margin:18px 0 0;font-size:13.5px;color:#8fa4ba}
+.btn-ghost{border:1px solid var(--linia);color:var(--tekst);background:var(--papier)}
+.btn-ghost:hover{background:var(--mgla)}
+.pod-przyciskami{margin:18px 0 0;font-size:var(--f-s);color:#8fa4ba}
+
+/* Odnośniki do sklepów — na razie ATRAPY, bo aplikacja nie jest opublikowana.
+   Świadomie NIE są linkami: `<span aria-disabled>` nie prowadzi w pustkę
+   i nie łapie fokusu. Podmiana w jednym miejscu w HTML (komentarz przy .sklepy).
+   PRZED PUBLIKACJĄ podmienić na oficjalne plakietki Google i Apple — ich
+   wytyczne znaków towarowych wymagają własnych plików, dlatego tu są neutralne
+   ikony, a nie logotypy sklepów. */
+.sklepy{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 0}
+.sklep{display:inline-flex;align-items:center;gap:11px;
+  padding:10px 18px 10px 15px;border-radius:var(--r-s);
+  border:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none}
+.sklep svg{width:21px;height:21px;flex:none;opacity:.9}
+.sklep b{display:block;font-family:Sora;font-size:var(--f-m);font-weight:650;
+  line-height:1.25}
+.sklep i{display:block;font-style:normal;font-size:var(--f-xs);color:#8fa4ba;
+  line-height:1.25}
+.sklep[aria-disabled="true"]{opacity:.6;cursor:default}
+a.sklep:hover{background:rgba(255,255,255,.09)}
 .hero-fig{position:relative;justify-self:center;padding-bottom:0}
 /* rama „urządzenia”: cienki bezel + odbicie, zamiast płaskiego obrazka */
 .rama{position:relative;width:min(272px,72vw);padding:9px;border-radius:30px;
@@ -132,16 +182,19 @@ h1,h2,h3{font-family:Sora,Manrope,system-ui,sans-serif;letter-spacing:-.03em;
   max-width:var(--max);margin:52px auto 0}
 @media (min-width:760px){.fakty{grid-template-columns:repeat(4,1fr)}}
 .fakt{background:var(--granat);padding:22px 24px}
-.fakt b{display:block;font-family:Sora;font-size:19px;font-weight:700;color:#fff;
-  letter-spacing:-.02em}
-.fakt span{font-size:13.5px;color:#8fa4ba}
+.fakt b{display:block;font-family:Sora;font-size:var(--f-xl);font-weight:700;
+  color:#fff;letter-spacing:-.02em}
+.fakt span{font-size:var(--f-s);color:#8fa4ba}
 
 /* ── Sekcje ────────────────────────────────────────────────────────── */
 section{padding:74px 0}
+/* Na telefonie 74 px między sekcjami przy 14 ekranach treści to sam przewijany
+   pusty ekran — mniejszy rytm oddaje część tej wysokości nawigacji. */
+@media (max-width:640px){section{padding:52px 0}}
 .mgla{background:var(--mgla)}
 .naglowek{max-width:66ch}
 .naglowek h2{margin:10px 0 12px;font-size:clamp(25px,3.4vw,36px);font-weight:700}
-.naglowek p{margin:0;color:var(--tekst2);font-size:17px}
+.naglowek p{margin:0;color:var(--tekst2);font-size:var(--f-l)}
 
 .karty{display:grid;gap:20px;margin-top:40px;grid-template-columns:1fr}
 @media (min-width:700px){.karty{grid-template-columns:1fr 1fr}
@@ -151,29 +204,32 @@ section{padding:74px 0}
 @media (min-width:1000px){.karty{grid-template-columns:repeat(3,1fr)}
   .karty>.karta:last-child:nth-child(odd){grid-column:auto}}
 .karta{background:var(--papier);border:1px solid var(--linia);border-radius:var(--r);
-  padding:26px;box-shadow:var(--cien);transition:transform .2s,box-shadow .2s}
-.karta:hover{transform:translateY(-3px);
-  box-shadow:0 2px 4px rgba(11,19,32,.06),0 22px 44px -16px rgba(11,19,32,.28)}
-.ikona{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  padding:26px;box-shadow:var(--cien)}
+/* Karty NIE są linkami — wcześniej podnosiły się o 3 px pod kursorem, czyli
+   obiecywały kliknięcie, którego nie ma. */
+.ikona{width:42px;height:42px;border-radius:var(--r-s);display:grid;place-items:center;
   background:var(--blekit);color:var(--niebieski);margin-bottom:16px}
 .ikona svg{width:21px;height:21px}
-.karta h3{font-size:18.5px;font-weight:680;margin-bottom:10px}
-.karta ul{margin:0;padding-left:19px;color:var(--tekst2);font-size:15.5px}
+.karta h3{font-size:var(--f-xl);font-weight:700;margin-bottom:10px}
+.karta ul{margin:0;color:var(--tekst2);font-size:var(--f-m)}
 .karta li{margin-bottom:7px}
 .karta li:last-child{margin-bottom:0}
 
 /* Pokaz funkcji: urządzenie obok opisu, naprzemiennie */
-.pokaz{display:grid;gap:34px;align-items:center;grid-template-columns:1fr;
-  padding:44px 0}
+/* Wyrównanie do GÓRY, nie do środka: pionowy telefon ma 509 px, a tekst obok
+   213–276 px — przy wyśrodkowaniu zostawało 234–297 px pustki w środku rzędu
+   (łącznie ponad 1000 px na sekcję). Węższa obudowa dokłada resztę. */
+.pokaz{display:grid;gap:34px;align-items:start;grid-template-columns:1fr;
+  padding:40px 0}
 .pokaz + .pokaz{border-top:1px solid var(--linia)}
 @media (min-width:860px){
-  .pokaz{grid-template-columns:290px 1fr;gap:56px}
-  .pokaz.odwrot{grid-template-columns:1fr 290px}
+  .pokaz{grid-template-columns:236px 1fr;gap:52px}
+  .pokaz.odwrot{grid-template-columns:1fr 236px}
   .pokaz.odwrot .txt{order:-1}}
-.pokaz .rama{width:min(250px,70vw);justify-self:center;
+.pokaz .rama{width:min(212px,70vw);justify-self:center;
   box-shadow:0 30px 60px -26px rgba(11,19,32,.55),0 0 0 1px rgba(17,28,42,.08)}
 .pokaz h3{font-size:clamp(21px,2.6vw,26px);font-weight:700;margin:8px 0 12px}
-.pokaz p{margin:0 0 14px;color:var(--tekst2);font-size:16.5px;max-width:52ch}
+.pokaz p{margin:0 0 14px;color:var(--tekst2);font-size:var(--f-l);max-width:52ch}
 .pokaz ul{margin:0;padding-left:20px;color:var(--tekst2)}
 .pokaz li{margin-bottom:8px}
 
@@ -187,8 +243,7 @@ section{padding:74px 0}
 .prywatnosc .naglowek p{color:#b9cadd}
 .prywatnosc .karta{background:rgba(255,255,255,.055);
   border-color:rgba(255,255,255,.13);box-shadow:none}
-.prywatnosc .karta:hover{transform:none;background:rgba(255,255,255,.08)}
-.prywatnosc .karta p{margin:0;color:#b9cadd;font-size:15.5px}
+.prywatnosc .karta p{margin:0;color:#b9cadd;font-size:var(--f-m)}
 .prywatnosc .ikona{background:rgba(58,163,224,.18);color:#7cc6f0}
 
 /* Start w 3 krokach — numeracja niesie kolejność, więc jest uzasadniona */
@@ -196,36 +251,69 @@ section{padding:74px 0}
 @media (min-width:780px){.kroki{grid-template-columns:repeat(3,1fr)}}
 .krok{position:relative;background:var(--papier);border:1px solid var(--linia);
   border-radius:var(--r);padding:26px;box-shadow:var(--cien)}
-.krok::before{counter-increment:k;content:counter(k,decimal-leading-zero);
-  font:700 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;
-  color:var(--niebieski)}
-.krok h3{margin:12px 0 9px;font-size:18px;font-weight:680}
-.krok p{margin:0;color:var(--tekst2);font-size:15.5px}
+/* Numer jako plakietka: #237cfd na bieli dawał 3,91:1, czyli poniżej AA dla
+   tekstu 12 px. Biel na #1668ad ma 5,8:1, a plakietka lepiej niesie ideę
+   „trzech kroków” niż drobny monospace w kącie karty. */
+.krok::before{counter-increment:k;content:counter(k);
+  display:grid;place-items:center;width:30px;height:30px;border-radius:9px;
+  background:#1668ad;color:#fff;font:700 var(--f-s)/1 Sora,Manrope,sans-serif}
+.krok h3{margin:14px 0 9px;font-size:var(--f-xl);font-weight:700}
+.krok p{margin:0;color:var(--tekst2);font-size:var(--f-m)}
 .wymagania{margin-top:28px;background:var(--mgla);border:1px solid var(--linia);
   border-radius:var(--r);padding:22px 26px}
-.wymagania h3{font-size:18px;font-weight:680;margin:0 0 9px}
-.wymagania ul{margin:0;padding-left:19px;color:var(--tekst2);font-size:15.5px}
+.wymagania h3{font-size:var(--f-xl);font-weight:700;margin:0 0 9px}
+.wymagania ul{margin:0;color:var(--tekst2);font-size:var(--f-m)}
 .wymagania li{margin-bottom:6px}
 /* Dwie kolumny na szerokim ekranie — jednokolumnowa lista zostawiała
    ~500 px pustki obok krótkich punktów (audyt B25) */
 @media (min-width:780px){.wymagania ul{columns:2;column-gap:44px}
   .wymagania li{break-inside:avoid}}
-.wymagania p{margin:12px 0 0;color:var(--tekst2);font-size:15.5px}
 
-footer{background:var(--granat);color:#93a8bd;padding:56px 0 60px;font-size:14.5px}
+/* Własne znaczniki list. Domyślne kropki `disc` dziedziczyły `color` tekstu
+   głównego, więc były CIEMNIEJSZE niż stonowany opis, który wprowadzają. */
+.karta ul,.pokaz ul,.wymagania ul{list-style:none;padding-left:0}
+.karta li,.pokaz li,.wymagania li{position:relative;padding-left:17px}
+.karta li::before,.pokaz li::before,.wymagania li::before{content:"";
+  position:absolute;left:2px;top:.62em;width:5px;height:5px;border-radius:50%;
+  background:currentColor;opacity:.42}
+
+/* Powtórzone wezwanie po sekcjach, które najmocniej przekonują — wcześniej na
+   ponad 11 000 px dokumentu były tylko dwa miejsca z przyciskiem: hero
+   i sam koniec strony. */
+.zacheta{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:38px;
+  padding-top:26px;border-top:1px solid var(--linia)}
+.zacheta p{margin:0;color:var(--tekst2);font-size:var(--f-m);max-width:48ch}
+.zacheta .btn{margin-left:auto}
+@media (max-width:640px){.zacheta .btn{margin-left:0}}
+.prywatnosc .zacheta{border-color:rgba(255,255,255,.14)}
+.prywatnosc .zacheta p{color:#b9cadd}
+
+/* Szczegóły prywatności w rozwijanym bloku: nagłówek sekcji ma nieść obietnicę,
+   a nie siedmiolinijkową klauzulę z wyjątkami w nawiasach. */
+.szczegoly{margin-top:20px;border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--r-s);padding:0 18px}
+.szczegoly summary{cursor:pointer;padding:15px 0;font-weight:650;color:#fff;
+  font-size:var(--f-m)}
+.szczegoly[open] summary{border-bottom:1px solid rgba(255,255,255,.12);
+  margin-bottom:14px}
+.szczegoly p{margin:0 0 16px;color:#b9cadd;font-size:var(--f-m);max-width:76ch}
+.wymagania p{margin:12px 0 0;color:var(--tekst2);font-size:var(--f-m)}
+
+footer{background:var(--granat);color:#93a8bd;padding:56px 0 60px;font-size:var(--f-m)}
 footer .in{display:grid;gap:28px}
 @media (min-width:780px){footer .in{grid-template-columns:1.5fr 1fr 1fr}}
-footer h4{margin:0 0 12px;color:#fff;font-family:Sora;font-size:14px;
+footer h4{margin:0 0 12px;color:#fff;font-family:Sora;font-size:var(--f-s);
   font-weight:650;letter-spacing:.01em}
 footer p{margin:0}
-.kontakt-opis{margin-top:6px;font-size:13px;color:#75899d}
-footer a{color:#c2d3e5;text-decoration:none;display:block;padding:10px 0;
+.kontakt-opis{margin-top:6px;font-size:var(--f-xs);color:#75899d}
+/* 12 px góra-dół daje cel dotykowy 50 px; przy 10 px wychodziło 42 px. */
+footer a{color:#c2d3e5;text-decoration:none;display:block;padding:12px 0;
   margin-bottom:2px}
 footer a:hover{color:#fff;text-decoration:underline}
 /* Kreska na PEŁNEJ szerokości stopki, limit szerokości tylko na tekst —
    wcześniej max-width:88ch ucinał linię na 61% szerokości (audyt B10) */
 .drobne{border-top:1px solid rgba(255,255,255,.11);margin-top:6px;padding-top:22px;
-  grid-column:1/-1;color:#75899d;font-size:13px}
+  grid-column:1/-1;color:#75899d;font-size:var(--f-xs)}
 .drobne span{display:block;max-width:88ch}
 
 /* Wejście sekcji przy przewijaniu. UWAGA: ukrywamy TYLKO gdy działa JavaScript
@@ -254,6 +342,14 @@ footer a:hover{color:#fff;text-decoration:underline}
   .fakt b,.prywatnosc h2,.prywatnosc h3,footer h4,footer a{color:#111}
   .hero .etyk,.prywatnosc .etyk{color:#444}
   .karta,.krok,.wymagania,.rama{box-shadow:none;break-inside:avoid}
+  /* Przeglądarki nie drukują teł, więc biały numer na błękitnej plakietce
+     wychodziłby biel na bieli. */
+  .krok::before{background:none;color:#111;border:1px solid #111}
+  .sklep{border-color:#ccc;color:#111}
+  .sklep i,.szczegoly p,.zacheta p{color:#333}
+  .zacheta,.szczegoly{border-color:#ccc}
+  .szczegoly summary{color:#111}
+  .szczegoly[open] summary{border-color:#ccc}
   .js .odslon{opacity:1;transform:none}
   a{color:#111;text-decoration:underline}
   main{padding:0}}
@@ -288,18 +384,31 @@ document.documentElement.classList.add('js');
 <div class="hero">
   <div class="in">
     <div>
-      <span class="etyk">Aplikacja mobilna do systemu NoviCloud</span>
-      <h1>Twój sklep w telefonie.<br><em>Bez włączania komputera.</em></h1>
+      <span class="etyk">Aplikacja mobilna do NoviCloud</span>
+      <h1>Twój sklep w telefonie.<em>Bez włączania komputera.</em></h1>
       <p class="lead">Sprzedaż, raporty, dokumenty i towary z Twojego konta
-        NoviCloud — na telefonie i tablecie. Dane odświeżają się same, gdy
-        aplikacja jest otwarta, a jeśli chcesz, wieczorem sama przyśle
+        NoviCloud — na telefonie i tablecie. Wieczorem aplikacja sama przyśle
         podsumowanie dnia.</p>
       <div class="przyciski">
         <a class="btn btn-main" href="instrukcja/">Zobacz instrukcję</a>
         <a class="btn btn-alt" href="mailto:next@novitus.pl">Zapytaj o dostęp</a>
       </div>
-      <p class="pod-przyciskami">Publikacja w Google Play w przygotowaniu ·
-        aplikacja bezpłatna dla klientów NoviCloud</p>
+      <div class="sklepy">
+        <!-- ATRAPY SKLEPÓW. Gdy aplikacja trafi do sklepu: zamień <span> na
+             <a class="sklep" href="ADRES">, usuń aria-disabled i wiersz <i>.
+             Ikony są NEUTRALNE — przed publikacją wstaw oficjalne plakietki
+             („Get it on Google Play” / „Download on the App Store”), bo tego
+             wymagają wytyczne znaków towarowych Google i Apple. -->
+        <span class="sklep" aria-disabled="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.3v17.4c0 .6.7 1 1.2.6l11.4-8.4c.4-.3.4-.9 0-1.2L7.2 2.7C6.7 2.3 6 2.7 6 3.3z"/></svg>
+          <span><b>Google Play</b><i>Wkrótce</i></span>
+        </span>
+        <span class="sklep" aria-disabled="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M4 18v2h16v-2"/></svg>
+          <span><b>App Store</b><i>Wkrótce</i></span>
+        </span>
+      </div>
+      <p class="pod-przyciskami">Aplikacja bezpłatna dla klientów NoviCloud.</p>
     </div>
     <div class="hero-fig">
       <div class="rama">
@@ -309,7 +418,7 @@ document.documentElement.classList.add('js');
     </div>
   </div>
   <div class="fakty">
-    <div class="fakt"><b>Sam da znać</b><span>wieczorne podsumowanie i alert cichej kasy</span></div>
+    <div class="fakt"><b>Sam da znać</b><span>podsumowanie dnia i alerty kas</span></div>
     <div class="fakt"><b>Android i iOS</b><span>telefon oraz tablet</span></div>
     <div class="fakt"><b>Bez reklam</b><span>zero śledzenia i analityki</span></div>
     <div class="fakt"><b>Doradca</b><span>prognozy liczone na urządzeniu</span></div>
@@ -364,7 +473,7 @@ document.documentElement.classList.add('js');
   <div class="in">
     <div class="naglowek odslon">
       <span class="etyk">Zobacz w działaniu</span>
-      <h2>Cztery ekrany, które oszczędzają najwięcej czasu</h2>
+      <h2>Ekrany, które oszczędzają najwięcej czasu</h2>
       <p>Wszystkie zrzuty pochodzą z prawdziwej aplikacji na koncie
         demonstracyjnym.</p>
     </div>
@@ -434,6 +543,12 @@ document.documentElement.classList.add('js');
         </ul>
       </div>
     </div>
+
+    <div class="zacheta odslon">
+      <p>Każdy z tych ekranów opisuje instrukcja — 18 rozdziałów i 58 zrzutów
+        z prawdziwej aplikacji.</p>
+      <a class="btn btn-main" href="instrukcja/">Otwórz instrukcję</a>
+    </div>
   </div>
 </section>
 
@@ -443,14 +558,18 @@ document.documentElement.classList.add('js');
       <span class="etyk">Prywatność</span>
       <h2>Twoje dane zostają u Ciebie</h2>
       <p>Aplikacja nie ma własnego serwera. Łączy się wprost z Twoim NoviCloud,
-        a to, co pobierze, trzyma w telefonie. Poza NoviCloud pyta tylko dwie
-        usługi i tylko wtedy, gdy sam o to poprosisz: Open Food Facts (wysyłany
-        jest sam kod kreskowy — stąd skład i alergeny) oraz prognozę pogody dla
-        podanej miejscowości, jeśli włączysz codzienne podpowiedzi Doradcy.
-        Do tych usług nigdy nie trafiają dane Twojej sprzedaży ani klientów.
-        Jeśli sam włączysz czat AI (własny klucz Gemini), do modelu idą
-        wyłącznie liczby i nazwy towarów — nigdy dane klientów, kontrahentów
-        ani nazwiska kasjerów.</p>
+        a to, co pobierze, trzyma w telefonie.</p>
+      <details class="szczegoly">
+        <summary>Co dokładnie wychodzi z telefonu?</summary>
+        <p>Poza NoviCloud aplikacja pyta tylko dwie usługi i tylko wtedy, gdy sam
+          o to poprosisz: <strong>Open Food Facts</strong> (wysyłany jest sam kod
+          kreskowy — stąd skład i alergeny) oraz <strong>prognozę pogody</strong>
+          dla podanej miejscowości, jeśli włączysz codzienne podpowiedzi Doradcy.
+          Do tych usług nigdy nie trafiają dane Twojej sprzedaży ani klientów.</p>
+        <p>Jeśli sam włączysz czat AI (własny klucz Gemini), do modelu idą
+          wyłącznie liczby i nazwy towarów — nigdy dane klientów, kontrahentów
+          ani nazwiska kasjerów.</p>
+      </details>
     </div>
     <div class="karty">
       <div class="karta odslon">
@@ -468,9 +587,15 @@ document.documentElement.classList.add('js');
       <div class="karta odslon">
         <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9zM18 15l.9 2.1 2.1.9-2.1.9L18 21l-.9-2.1-2.1-.9 2.1-.9z"/></svg></div>
         <h3>AI dobrowolne</h3>
-        <p>Funkcje chmurowego AI włączasz sam. Nigdy nie trafiają do nich dane
-          klientów, kontrahentów ani nazwiska kasjerów.</p>
+        <p>Chmurowy czat włączasz sam, własnym kluczem. Bez niego Doradca liczy
+          wszystko na urządzeniu.</p>
       </div>
+    </div>
+
+    <div class="zacheta odslon">
+      <p>Pełną listę pobieranych danych i uprawnień opisuje polityka
+        prywatności.</p>
+      <a class="btn btn-alt" href="https://pixelpetrol.github.io/novilink-privacy/">Polityka prywatności</a>
     </div>
   </div>
 </section>
@@ -515,7 +640,8 @@ document.documentElement.classList.add('js');
         <a href="tel:+48221139569">22 113 95 69</a>.</p>
     </div>
     <div class="przyciski">
-      <a class="btn btn-main" href="instrukcja/">Pełna instrukcja ze zrzutami</a>
+      <a class="btn btn-main" href="instrukcja/#novicloud">Te trzy kroki na zrzutach z NoviCloud</a>
+      <a class="btn btn-ghost" href="instrukcja/">Pełna instrukcja</a>
     </div>
   </div>
 </section>
