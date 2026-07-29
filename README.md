@@ -27,7 +27,8 @@ Adres: **https://pixelpetrol.github.io/novicloudgo/**
    cd ..                      # katalog novilink/
    cp docs/instrukcja/index.html site/instrukcja/
    cp docs/instrukcja/zrzuty/*.webp site/instrukcja/zrzuty/
-   for f in 07-pulpit 12-raport-dnia 15-raport-kasjerski 20-skaner 21-doradca-ai; do
+   for f in 07-pulpit 12-raport-dnia 15-raport-kasjerski 20-skaner 21-doradca-ai \
+            58-tablet-pulpit-pionowo; do
      cp docs/instrukcja/zrzuty/$f.webp site/img/
    done
    # UWAGA: kopiujemy TYLKO .webp — źródłowe PNG (~11 MB) nie wchodzą
