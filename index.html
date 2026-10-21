@@ -510,7 +510,6 @@ document.documentElement.classList.add('js');
           <li>Trafienie potwierdza bip i wibracja — nie trzeba patrzeć na ekran</li>
           <li>Kod zniszczony? Wpiszesz go z klawiatury bez wychodzenia ze skanera</li>
           <li>Tryb ciągły — kolejne towary sprawdzasz jednym ruchem</li>
-          <li>Dla produktów spożywczych podejrzysz skład i alergeny</li>
         </ul>
       </div>
     </div>
@@ -543,7 +542,6 @@ document.documentElement.classList.add('js');
             bezpieczeństwa</li>
           <li>Analiza ABC: które towary robią 80% obrotu</li>
           <li>Każda liczba ma rozwijane „Dlaczego?” z pełnym wyliczeniem</li>
-          <li>Opcjonalny czat wymaga własnego, darmowego klucza Google Gemini</li>
         </ul>
       </div>
     </div>
@@ -570,7 +568,7 @@ document.documentElement.classList.add('js');
     </div>
 
     <div class="zacheta odslon">
-      <p>Każdy z tych ekranów opisuje instrukcja — 19 rozdziałów i 62 zrzuty
+      <p>Każdy z tych ekranów opisuje instrukcja — 19 rozdziałów i 67 zrzutów
         z prawdziwej aplikacji.</p>
       <a class="btn btn-main" href="instrukcja/">Otwórz instrukcję</a>
     </div>
@@ -586,14 +584,13 @@ document.documentElement.classList.add('js');
         a to, co pobierze, trzyma w telefonie.</p>
       <details class="szczegoly">
         <summary>Co dokładnie wychodzi z telefonu?</summary>
-        <p>Poza NoviCloud aplikacja pyta tylko dwie usługi i tylko wtedy, gdy sam
-          o to poprosisz: <strong>Open Food Facts</strong> (wysyłany jest sam kod
-          kreskowy — stąd skład i alergeny) oraz <strong>prognozę pogody</strong>
-          dla podanej miejscowości, jeśli włączysz codzienne podpowiedzi Doradcy.
-          Do tych usług nigdy nie trafiają dane Twojej sprzedaży ani klientów.</p>
-        <p>Jeśli sam włączysz czat AI (własny klucz Gemini), do modelu idą
-          wyłącznie liczby i nazwy towarów — nigdy dane klientów, kontrahentów
-          ani nazwiska kasjerów.</p>
+        <p>Poza systemem NoviCloud aplikacja nie odpytuje żadnych usług
+          zewnętrznych. Dane handlowe pobierane są wyłącznie z Twojego konta
+          NoviCloud po HTTPS i zostają na urządzeniu. Pozostałe połączenia
+          powstają tylko wtedy, gdy sam stukniesz odnośnik — do instrukcji
+          obsługi, do polityki prywatności, do numeru wsparcia albo do
+          formularza zgłoszenia — a otwiera je wówczas przeglądarka, telefon
+          lub klient poczty.</p>
       </details>
     </div>
     <div class="karty">
@@ -611,9 +608,10 @@ document.documentElement.classList.add('js');
       </div>
       <div class="karta odslon">
         <div class="ikona"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9zM18 15l.9 2.1 2.1.9-2.1.9L18 21l-.9-2.1-2.1-.9 2.1-.9z"/></svg></div>
-        <h3>AI dobrowolne</h3>
-        <p>Chmurowy czat włączasz sam, własnym kluczem. Bez niego Doradca liczy
-          wszystko na urządzeniu.</p>
+        <h3>Bez chmury AI</h3>
+        <p>Doradca liczy prognozy, alerty i analizę ABC na samym urządzeniu.
+          Żaden model w chmurze nie dostaje Twoich danych — nie ma czego
+          włączać ani za co płacić.</p>
       </div>
     </div>
 
@@ -692,7 +690,10 @@ document.documentElement.classList.add('js');
       <p class="kontakt-opis">E-mail — sprawy aplikacji. Helpdesk — NoviCloud
         i kasy Next One.</p>
     </div>
-    <p class="drobne"><span>Zrzuty ekranu pochodzą z konta demonstracyjnego, więc
+    <p class="drobne"><span>Wydawcą aplikacji jest COMP S.A., ul. Jutrzenki 116,
+      02-230 Warszawa, KRS 0000037706, NIP 5220001694; aplikację rozwija
+      Comp S.A. Oddział Nowy Sącz NOVITUS, ul. Nawojowska 118,
+      33-300 Nowy Sącz. Zrzuty ekranu pochodzą z konta demonstracyjnego, więc
       kwoty i nazwy towarów są przykładowe. Dane i wyliczenia prezentowane
       w aplikacji mają charakter pomocniczy; w razie wątpliwości należy je
       weryfikować w NoviCloud.</span></p>
